@@ -1,0 +1,122 @@
+{
+  "@@locale": "vi",
+  "appTitle": "BeeGrammar",
+  "home": "Trang chủ",
+  "leaderboard": "Bảng xếp hạng",
+  "tasks": "Nhiệm vụ",
+  "profile": "Hồ sơ",
+  
+  "logout": "Đăng xuất",
+  "logoutConfirm": "Bạn có chắc chắn muốn đăng xuất?",
+  "cancel": "Hủy",
+  
+  "streak": "Chuỗi",
+  "points": "Điểm",
+  "diamonds": "Kim cương",
+  "day": "ngày",
+  "days": "ngày",
+  
+  "notifications": "Thông báo",
+  "notificationSettings": "Quản lý thông báo",
+  "enableAllNotifications": "Bật tất cả thông báo",
+  "receiveAllNotifications": "Nhận tất cả thông báo từ ứng dụng",
+  "disableAllNotifications": "Tắt tất cả thông báo",
+  
+  "learningSection": "Học tập",
+  "learningReminders": "Nhắc nhở học tập",
+  "learningRemindersDesc": "Nhận nhắc nhở hàng ngày để duy trì chuỗi học",
+  "newContent": "Nội dung mới",
+  "newContentDesc": "Thông báo khi có bài học hoặc chủ đề mới",
+  
+  "progressSection": "Tiến độ & Thành tích",
+  "newAchievements": "Thành tích mới",
+  "newAchievementsDesc": "Thông báo khi đạt được thành tích hoặc huy hiệu",
+  "quizResults": "Kết quả quiz",
+  "quizResultsDesc": "Nhận thông báo về điểm số và đánh giá",
+  "leaderboardUpdates": "Cập nhật bảng xếp hạng",
+  "leaderboardUpdatesDesc": "Thông báo khi thứ hạng của bạn thay đổi",
+  
+  "systemSection": "Hệ thống",
+  "appUpdates": "Cập nhật ứng dụng",
+  "appUpdatesDesc": "Thông báo về phiên bản mới và tính năng",
+  
+  "settingsSaved": "✅ Đã lưu cài đặt thông báo",
+  
+  "language": "Ngôn ngữ",
+  "languageSettings": "Cài đặt ngôn ngữ",
+  "selectLanguage": "Chọn ngôn ngữ hiển thị",
+  "vietnamese": "Tiếng Việt",
+  "english": "English",
+  "languageChanged": "✅ Đã chuyển sang {language}",
+  "@languageChanged": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "languageChangeInfo": "Thay đổi ngôn ngữ sẽ áp dụng cho toàn bộ ứng dụng. Một số nội dung học tập vẫn giữ nguyên ngôn ngữ gốc.",
+  
+  "personalInfo": "Thông tin cá nhân",
+  "personalInfoDesc": "Xem và chỉnh sửa thông tin",
+  "changePassword": "Đổi mật khẩu",
+  "changePasswordDesc": "Cập nhật mật khẩu của bạn",
+  "achievements": "Thành tích",
+  "achievementsDesc": "Xem các thành tích đã đạt được",
+  "learningHistory": "Lịch sử học tập",
+  "learningHistoryDesc": "Xem các bài đã học",
+  "savedLessons": "Bài học đã lưu",
+  "savedLessonsDesc": "Danh sách bài học yêu thích",
+  "statistics": "Thống kê",
+  "statisticsDesc": "Xem tiến độ học tập",
+  "helpSupport": "Trợ giúp & Hỗ trợ",
+  "helpSupportDesc": "Câu hỏi thường gặp",
+  "featureInDevelopment": "Tính năng đang phát triển",
+  
+  "darkMode": "Chế độ tối",
+  "lightMode": "Chế độ sáng",
+  "theme": "Giao diện",
+  
+  "settings": "Cài đặt",
+  "account": "Tài khoản",
+  "general": "Chung",
+  
+  "todayTasks": "Nhiệm vụ hôm nay",
+  "completedTasks": "Đã hoàn thành",
+  "pendingTasks": "Đang chờ",
+  "allTasks": "Tất cả nhiệm vụ",
+  "dailyTasks": "Nhiệm vụ hàng ngày",
+  "weeklyTasks": "Nhiệm vụ hàng tuần",
+  "specialTasks": "Nhiệm vụ đặc biệt",
+  "taskCompleted": "Hoàn thành nhiệm vụ!",
+  "reward": "Phần thưởng",
+  "complete": "Hoàn thành",
+  "completed": "Đã hoàn thành",
+  
+  "topLearners": "Người học xuất sắc",
+  "thisWeek": "Tuần này",
+  "thisMonth": "Tháng này",
+  "allTime": "Mọi lúc",
+  "rank": "Hạng",
+  "you": "Bạn",
+  "level": "Cấp độ",
+  
+  "continueStreak": "Duy trì chuỗi học!",
+  "daysStreak": "Chuỗi {count} ngày",
+  "@daysStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quickActions": "Hành động nhanh",
+  "startLesson": "Bắt đầu bài học",
+  "practiceGrammar": "Luyện ngữ pháp",
+  "listeningPractice": "Luyện nghe",
+  "yourProgress": "Tiến độ của bạn",
+  "lessonsCompleted": "Bài học đã hoàn thành",
+  "accuracy": "Độ chính xác",
+  "studyTime": "Thời gian học",
+  "minutes": "phút"
+}

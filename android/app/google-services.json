@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1084026698480",
+    "project_id": "beegrammar",
+    "storage_bucket": "beegrammar.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084026698480:android:72dcb84d546d4bc28ba035",
+        "android_client_info": {
+          "package_name": "com.minhtuyet.beegrammar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbp1IAtStnjK7p-v5c9JQvKl67pNQ9tPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

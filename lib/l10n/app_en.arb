@@ -1,0 +1,122 @@
+{
+  "@@locale": "en",
+  "appTitle": "BeeGrammar",
+  "home": "Home",
+  "leaderboard": "Leaderboard",
+  "tasks": "Tasks",
+  "profile": "Profile",
+  
+  "logout": "Logout",
+  "logoutConfirm": "Are you sure you want to logout?",
+  "cancel": "Cancel",
+  
+  "streak": "Streak",
+  "points": "Points",
+  "diamonds": "Diamonds",
+  "day": "day",
+  "days": "days",
+  
+  "notifications": "Notifications",
+  "notificationSettings": "Notification Settings",
+  "enableAllNotifications": "Enable all notifications",
+  "receiveAllNotifications": "Receive all notifications from the app",
+  "disableAllNotifications": "Disable all notifications",
+  
+  "learningSection": "Learning",
+  "learningReminders": "Learning reminders",
+  "learningRemindersDesc": "Daily reminders to maintain your streak",
+  "newContent": "New content",
+  "newContentDesc": "Notify when new lessons or topics are available",
+  
+  "progressSection": "Progress & Achievements",
+  "newAchievements": "New achievements",
+  "newAchievementsDesc": "Notify when you earn achievements or badges",
+  "quizResults": "Quiz results",
+  "quizResultsDesc": "Receive notifications about scores and reviews",
+  "leaderboardUpdates": "Leaderboard updates",
+  "leaderboardUpdatesDesc": "Notify when your rank changes",
+  
+  "systemSection": "System",
+  "appUpdates": "App updates",
+  "appUpdatesDesc": "Notifications about new versions and features",
+  
+  "settingsSaved": "✅ Settings saved",
+  
+  "language": "Language",
+  "languageSettings": "Language Settings",
+  "selectLanguage": "Select display language",
+  "vietnamese": "Vietnamese",
+  "english": "English",
+  "languageChanged": "✅ Changed to {language}",
+  "@languageChanged": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "languageChangeInfo": "Language changes will apply to the entire app. Some learning content will remain in the original language.",
+  
+  "personalInfo": "Personal Information",
+  "personalInfoDesc": "View and edit your information",
+  "changePassword": "Change Password",
+  "changePasswordDesc": "Update your password",
+  "achievements": "Achievements",
+  "achievementsDesc": "View your earned achievements",
+  "learningHistory": "Learning History",
+  "learningHistoryDesc": "View completed lessons",
+  "savedLessons": "Saved Lessons",
+  "savedLessonsDesc": "Your favorite lessons",
+  "statistics": "Statistics",
+  "statisticsDesc": "View your learning progress",
+  "helpSupport": "Help & Support",
+  "helpSupportDesc": "Frequently asked questions",
+  "featureInDevelopment": "Feature in development",
+  
+  "darkMode": "Dark Mode",
+  "lightMode": "Light Mode",
+  "theme": "Theme",
+  
+  "settings": "Settings",
+  "account": "Account",
+  "general": "General",
+  
+  "todayTasks": "Today's Tasks",
+  "completedTasks": "Completed",
+  "pendingTasks": "Pending",
+  "allTasks": "All Tasks",
+  "dailyTasks": "Daily Tasks",
+  "weeklyTasks": "Weekly Tasks",
+  "specialTasks": "Special Tasks",
+  "taskCompleted": "Task completed!",
+  "reward": "Reward",
+  "complete": "Complete",
+  "completed": "Completed",
+  
+  "topLearners": "Top Learners",
+  "thisWeek": "This Week",
+  "thisMonth": "This Month",
+  "allTime": "All Time",
+  "rank": "Rank",
+  "you": "You",
+  "level": "Level",
+  
+  "continueStreak": "Continue your streak!",
+  "daysStreak": "{count} days streak",
+  "@daysStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quickActions": "Quick Actions",
+  "startLesson": "Start Lesson",
+  "practiceGrammar": "Practice Grammar",
+  "listeningPractice": "Listening Practice",
+  "yourProgress": "Your Progress",
+  "lessonsCompleted": "Lessons Completed",
+  "accuracy": "Accuracy",
+  "studyTime": "Study Time",
+  "minutes": "minutes"
+}
