@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import '../../data/firebase_user_progress_service.dart';
-import '../../data/firebase_grammar_lesson_service.dart';
+import '../../data/grammar_content_data.dart';
 import '../../models/grammar_lesson.dart';
 import 'grammar_lessons_screen.dart';
 import 'grammar_tenses_screen.dart';
@@ -15,7 +15,6 @@ class NewHomeScreen extends StatefulWidget {
 
 class _NewHomeScreenState extends State<NewHomeScreen> {
   final _progressService = FirebaseUserProgressService();
-  final _grammarService = FirebaseGrammarLessonService();
   Map<String, dynamic> _userProgress = {};
   List<GrammarCategory> _categories = [];
   bool _isLoading = true;
@@ -41,8 +40,9 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
         }
       });
 
-      // Load grammar categories
-      final categories = await _grammarService.getCategories();
+      // Load grammar categories from LOCAL DATA
+      await Future.delayed(const Duration(milliseconds: 300)); // Simulate loading
+      final categories = GrammarContentData.getCategories();
       setState(() {
         _categories = categories;
         _isLoading = false;

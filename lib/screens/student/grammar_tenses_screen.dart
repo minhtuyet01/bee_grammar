@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../data/firebase_grammar_lesson_service.dart';
+import '../../data/grammar_content_data.dart';
 import '../../data/lesson_progress_service.dart';
 import '../../models/grammar_lesson.dart';
 import '../../widgets/lesson_progress_bar.dart';
@@ -18,7 +18,6 @@ class GrammarTensesScreen extends StatefulWidget {
 class _GrammarTensesScreenState extends State<GrammarTensesScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final _service = FirebaseGrammarLessonService();
   final _progressService = LessonProgressService();
   List<GrammarLesson> _allLessons = [];
   Map<String, int> _progressMap = {};
@@ -38,7 +37,9 @@ class _GrammarTensesScreenState extends State<GrammarTensesScreen>
 
   Future<void> _loadLessons() async {
     try {
-      final lessons = await _service.getLessonsByCategory(widget.category.id);
+      // Use local mock data instead of Firebase
+      await Future.delayed(const Duration(milliseconds: 300)); // Simulate loading
+      final lessons = GrammarContentData.getLessonsByCategory(widget.category.id);
       setState(() {
         _allLessons = lessons;
       });

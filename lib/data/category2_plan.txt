@@ -1,0 +1,46 @@
+// Category 2: 8 Bài học về Cấu trúc câu trong tiếng Anh
+// Sẽ được tích hợp vào grammar_content_data.dart
+
+/*
+DANH SÁCH 8 BÀI HỌC:
+
+1. Lesson 6: Câu so sánh (Comparatives and Superlatives)
+2. Lesson 7: Câu điều kiện (Conditional Sentences)  
+3. Lesson 8: Câu ước với wish (Wish Sentences)
+4. Lesson 9: Câu chủ động/bị động (Active/Passive Voice)
+5. Lesson 10: Câu giả định (Subjunctive Mood)
+6. Lesson 11: Câu mệnh lệnh (Imperative Sentences)
+7. Lesson 12: Câu trực tiếp, câu gián tiếp (Direct/Indirect Speech)
+8. Lesson 13: Mệnh đề quan hệ (Relative Clauses)
+
+MỖI BÀI HỌC GỒM:
+- Mục tiêu (objective)
+- Lý thuyết (theory)
+- Công thức (formulas) - đầy đủ
+- Cách dùng (usages)
+- Ví dụ minh họa (examples) - 4-5 ví dụ
+- Dấu hiệu nhận biết (recognitionSigns)
+- Lỗi sai thường gặp (commonMistakes) - 4 lỗi
+- Bài tập (exercises) - 7 câu: 4 MCQ + 2 Drag&Drop + 1 Fill-blank
+
+STRUCTURE CODE:
+
+static GrammarLesson _createLesson6_Comparatives() {
+  return const GrammarLesson(
+    id: 'lesson_6',
+    categoryId: 'cat_2',
+    title: 'Câu So Sánh (Comparatives and Superlatives)',
+    objective: '...',
+    theory: '...',
+    formulas: [...],
+    usages: [...],
+    examples: [...],
+    recognitionSigns: [...],
+    commonMistakes: [...],
+    exercises: [...],
+    order: 6,
+  );
+}
+
+// Tương tự cho 7 bài còn lại...
+*/

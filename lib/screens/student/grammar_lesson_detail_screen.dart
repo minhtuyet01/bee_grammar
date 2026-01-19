@@ -1,6 +1,28 @@
 import 'package:flutter/material.dart';
 import '../../models/grammar_lesson.dart';
 import '../../widgets/grammar/formula_table_widget.dart';
+import '../../widgets/grammar/comparatives_table_widget.dart';
+import '../../widgets/grammar/conditionals_table_widget.dart';
+import '../../widgets/grammar/wish_table_widget.dart';
+import '../../widgets/grammar/passive_voice_table_widget.dart';
+import '../../widgets/grammar/subjunctive_table_widget.dart';
+import '../../widgets/grammar/imperative_table_widget.dart';
+import '../../widgets/grammar/reported_speech_table_widget.dart';
+import '../../widgets/grammar/relative_clauses_table_widget.dart';
+import '../../widgets/grammar/pronouns_table_widget.dart';
+import '../../widgets/grammar/nouns_table_widget.dart';
+import '../../widgets/grammar/adjectives_table_widget.dart';
+import '../../widgets/grammar/verbs_table_widget.dart';
+import '../../widgets/grammar/adverbs_table_widget.dart';
+import '../../widgets/grammar/quantifiers_table_widget.dart';
+import '../../widgets/grammar/prepositions_table_widget.dart';
+import '../../widgets/grammar/articles_table_widget.dart';
+import '../../widgets/grammar/conjunctions_table_widget.dart';
+import '../../widgets/grammar/question_words_table_widget.dart';
+import '../../widgets/grammar/yes_no_questions_table_widget.dart';
+import '../../widgets/grammar/wh_questions_table_widget.dart';
+import '../../widgets/grammar/tag_questions_table_widget.dart';
+import '../../widgets/grammar/indirect_questions_table_widget.dart';
 import '../../widgets/grammar/present_continuous_table_widget.dart';
 import '../../widgets/grammar/present_perfect_table_widget.dart';
 import '../../widgets/grammar/present_perfect_continuous_table_widget.dart';
@@ -13,6 +35,44 @@ import '../../widgets/grammar/future_continuous_table_widget.dart';
 import '../../widgets/grammar/future_perfect_table_widget.dart';
 import '../../widgets/grammar/future_perfect_continuous_table_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// Category 5 table widgets (Lessons 28-64)
+import '../../widgets/grammar/enough_table_widget.dart';
+import '../../widgets/grammar/suggest_table_widget.dart';
+import '../../widgets/grammar/hope_table_widget.dart';
+import '../../widgets/grammar/used_to_table_widget.dart';
+import '../../widgets/grammar/mind_table_widget.dart';
+import '../../widgets/grammar/would_you_like_table_widget.dart';
+import '../../widgets/grammar/as_if_table_widget.dart';
+import '../../widgets/grammar/although_table_widget.dart';
+import '../../widgets/grammar/in_spite_of_table_widget.dart';
+import '../../widgets/grammar/because_of_table_widget.dart';
+import '../../widgets/grammar/so_such_too_table_widget.dart';
+import '../../widgets/grammar/as_well_as_table_widget.dart';
+import '../../widgets/grammar/not_only_but_also_table_widget.dart';
+import '../../widgets/grammar/would_rather_table_widget.dart';
+import '../../widgets/grammar/prefer_table_widget.dart';
+import '../../widgets/grammar/refuse_table_widget.dart';
+import '../../widgets/grammar/let_table_widget.dart';
+import '../../widgets/grammar/lets_table_widget.dart';
+import '../../widgets/grammar/difficult_table_widget.dart';
+import '../../widgets/grammar/promise_table_widget.dart';
+import '../../widgets/grammar/avoid_table_widget.dart';
+import '../../widgets/grammar/advise_table_widget.dart';
+import '../../widgets/grammar/after_table_widget.dart';
+import '../../widgets/grammar/ask_table_widget.dart';
+import '../../widgets/grammar/enjoy_table_widget.dart';
+import '../../widgets/grammar/must_table_widget.dart';
+import '../../widgets/grammar/as_much_as_table_widget.dart';
+import '../../widgets/grammar/when_while_table_widget.dart';
+import '../../widgets/grammar/find_table_widget.dart';
+import '../../widgets/grammar/remember_table_widget.dart';
+import '../../widgets/grammar/unless_table_widget.dart';
+import '../../widgets/grammar/had_better_table_widget.dart';
+import '../../widgets/grammar/despite_table_widget.dart';
+import '../../widgets/grammar/it_was_not_until_table_widget.dart';
+import '../../widgets/grammar/need_table_widget.dart';
+import '../../widgets/grammar/regret_table_widget.dart';
+import '../../widgets/grammar/stop_table_widget.dart';
 import '../../data/learning_history_service.dart';
 import '../../data/lesson_progress_service.dart';
 import '../../widgets/lesson_progress_bar.dart';
@@ -212,7 +272,31 @@ class _GrammarLessonDetailScreenState extends State<GrammarLessonDetailScreen> w
   }
 
   Widget _buildTheoryTab() {
-    // Define available sections
+    // Special layout for Category 5 - show all content on one page without tabs
+    if (widget.lesson.categoryId == 'cat_5') {
+      return SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Objective
+            _buildSection('🎯 Mục Tiêu', widget.lesson.objective, Colors.blue),
+            const SizedBox(height: 20),
+            
+            // Theory
+            _buildSection('📚 Khái niệm', widget.lesson.theory, Colors.green),
+            const SizedBox(height: 20),
+            
+            // Formulas - Use table widgets
+            _buildSectionTitle('📝 Công Thức', Colors.orange),
+            const SizedBox(height: 12),
+            _buildCategory5FormulaTable(),
+          ],
+        ),
+      );
+    }
+    
+    // Define available sections for other categories
     final sections = <String, Widget Function()>{
       'Mục Tiêu': () => _buildSection('🎯 Mục Tiêu', widget.lesson.objective, Colors.blue),
       'Khái Niệm': () => _buildSection('📚 Khái niệm', widget.lesson.theory, Colors.green),
@@ -222,13 +306,32 @@ class _GrammarLessonDetailScreenState extends State<GrammarLessonDetailScreen> w
           widget.lesson.id == 'lesson_3_2' || widget.lesson.id == 'lesson_3_3' ||
           widget.lesson.id == 'lesson_4' || widget.lesson.id == 'lesson_4_1' ||
           widget.lesson.id == 'lesson_4_2' || widget.lesson.id == 'lesson_4_3' ||
-          widget.lesson.id == 'lesson_5' || widget.lesson.id == 'lesson_1_6')
-        'Công Thức': () => _buildFormulaSection(),
-      if (widget.lesson.usages.isNotEmpty)
+          widget.lesson.id == 'lesson_5' || widget.lesson.id == 'lesson_1_6' ||
+          widget.lesson.id == 'lesson_6' || widget.lesson.id == 'lesson_7' ||
+          widget.lesson.id == 'lesson_8' || widget.lesson.id == 'lesson_9' ||
+          widget.lesson.id == 'lesson_10' || widget.lesson.id == 'lesson_11' ||
+          widget.lesson.id == 'lesson_12' || widget.lesson.id == 'lesson_13' ||
+          widget.lesson.id == 'lesson_14' || widget.lesson.id == 'lesson_15' ||
+          widget.lesson.id == 'lesson_16' || widget.lesson.id == 'lesson_17' ||
+          widget.lesson.id == 'lesson_18' || widget.lesson.id == 'lesson_19' ||
+          widget.lesson.id == 'lesson_20' || widget.lesson.id == 'lesson_21' ||
+          widget.lesson.id == 'lesson_22' || widget.lesson.id == 'lesson_23' ||
+          widget.lesson.id == 'lesson_24' || widget.lesson.id == 'lesson_25' ||
+          widget.lesson.id == 'lesson_26' || widget.lesson.id == 'lesson_27')
+        // Use 'Phân Loại' for Category 3 (Parts of Speech), 'Công Thức' for others
+        (widget.lesson.id == 'lesson_14' || widget.lesson.id == 'lesson_15' ||
+         widget.lesson.id == 'lesson_16' || widget.lesson.id == 'lesson_17' ||
+         widget.lesson.id == 'lesson_18' || widget.lesson.id == 'lesson_19' ||
+         widget.lesson.id == 'lesson_20' || widget.lesson.id == 'lesson_21' ||
+         widget.lesson.id == 'lesson_22')
+          ? 'Phân Loại'
+          : 'Công Thức': () => _buildFormulaSection(),
+      // Only show Usage, Common Mistakes for non-Category 5 lessons
+      if (widget.lesson.usages.isNotEmpty && widget.lesson.categoryId != 'cat_5')
         'Cách Dùng': () => _buildListSection('💡 Cách Dùng', widget.lesson.usages, Colors.purple),
-      if (widget.lesson.recognitionSigns != null && widget.lesson.recognitionSigns!.isNotEmpty)
+      if (widget.lesson.recognitionSigns != null && widget.lesson.recognitionSigns!.isNotEmpty && widget.lesson.categoryId != 'cat_5')
         'Dấu Hiệu Nhận Biết': () => _buildListSection('🔍 Dấu Hiệu Nhận Biết', widget.lesson.recognitionSigns!, const Color(0xFFFF1493)),
-      if (widget.lesson.commonMistakes.isNotEmpty)
+      if (widget.lesson.commonMistakes.isNotEmpty && widget.lesson.categoryId != 'cat_5')
         'Lỗi Sai Thường Gặp': () => _buildListSection('⚠️ Lỗi Sai Thường Gặp', widget.lesson.commonMistakes, Colors.red),
     };
 
@@ -320,10 +423,20 @@ class _GrammarLessonDetailScreenState extends State<GrammarLessonDetailScreen> w
   }
 
   Widget _buildFormulaSection() {
+    // Check if this is a Category 3 lesson (Parts of Speech)
+    final isCategory3 = widget.lesson.id == 'lesson_14' || widget.lesson.id == 'lesson_15' ||
+                        widget.lesson.id == 'lesson_16' || widget.lesson.id == 'lesson_17' ||
+                        widget.lesson.id == 'lesson_18' || widget.lesson.id == 'lesson_19' ||
+                        widget.lesson.id == 'lesson_20' || widget.lesson.id == 'lesson_21' ||
+                        widget.lesson.id == 'lesson_22';
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle('📝 Công Thức', Colors.orange),
+        _buildSectionTitle(
+          isCategory3 ? '📂 Phân Loại' : '📝 Công Thức',
+          Colors.orange,
+        ),
         const SizedBox(height: 12),
 
         if (widget.lesson.id == 'lesson_1') ...[
@@ -350,11 +463,174 @@ class _GrammarLessonDetailScreenState extends State<GrammarLessonDetailScreen> w
           const PresentPerfectTableWidget(),
         ] else if (widget.lesson.id == 'lesson_1_6') ...[
           const PresentPerfectContinuousTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_6') ...[
+          const ComparativesTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_7') ...[
+          const ConditionalsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_8') ...[
+          const WishTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_9') ...[
+          const PassiveVoiceTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_10') ...[
+          const SubjunctiveTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_11') ...[
+          const ImperativeTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_12') ...[
+          const ReportedSpeechTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_13') ...[
+          const RelativeClausesTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_14') ...[
+          const PronounsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_15') ...[
+          const NounsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_16') ...[
+          const AdjectivesTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_17') ...[
+          const VerbsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_18') ...[
+          const AdverbsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_19') ...[
+          const QuantifiersTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_20') ...[
+          const PrepositionsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_21') ...[
+          const ArticlesTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_22') ...[
+          const ConjunctionsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_23') ...[
+          const QuestionWordsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_24') ...[
+          const YesNoQuestionsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_25') ...[
+          const WhQuestionsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_26') ...[
+          const TagQuestionsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_27') ...[
+          const IndirectQuestionsTableWidget(),
+        ] 
+        // Category 5 lessons (28-64)
+        else if (widget.lesson.id == 'lesson_28') ...[
+          const EnoughTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_29') ...[
+          const SuggestTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_30') ...[
+          const HopeTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_31') ...[
+          const UsedToTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_32') ...[
+          const MindTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_33') ...[
+          const WouldYouLikeTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_34') ...[
+          const AsIfTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_35') ...[
+          const AlthoughTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_36') ...[
+          const InSpiteOfTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_37') ...[
+          const BecauseOfTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_38') ...[
+          const SoSuchTooTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_39') ...[
+          const AsWellAsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_40') ...[
+          const NotOnlyButAlsoTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_41') ...[
+          const WouldRatherTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_42') ...[
+          const PreferTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_43') ...[
+          const RefuseTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_44') ...[
+          const LetTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_45') ...[
+          const LetsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_46') ...[
+          const DifficultTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_47') ...[
+          const PromiseTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_48') ...[
+          const AvoidTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_49') ...[
+          const AdviseTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_50') ...[
+          const AfterTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_51') ...[
+          const AskTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_52') ...[
+          const EnjoyTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_53') ...[
+          const MustTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_54') ...[
+          const AsMuchAsTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_55') ...[
+          const WhenWhileTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_56') ...[
+          const FindTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_57') ...[
+          const RememberTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_58') ...[
+          const UnlessTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_59') ...[
+          const HadBetterTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_60') ...[
+          const DespiteTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_61') ...[
+          const ItWasNotUntilTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_62') ...[
+          const NeedTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_63') ...[
+          const RegretTableWidget(),
+        ] else if (widget.lesson.id == 'lesson_64') ...[
+          const StopTableWidget(),
         ] else ...[
           ...widget.lesson.formulas.map((formula) => _buildFormulaCard(formula)),
         ],
       ],
     );
+  }
+
+  Widget _buildCategory5FormulaTable() {
+    switch (widget.lesson.id) {
+      case 'lesson_28': return const EnoughTableWidget();
+      case 'lesson_29': return const SuggestTableWidget();
+      case 'lesson_30': return const HopeTableWidget();
+      case 'lesson_31': return const UsedToTableWidget();
+      case 'lesson_32': return const MindTableWidget();
+      case 'lesson_33': return const WouldYouLikeTableWidget();
+      case 'lesson_34': return const AsIfTableWidget();
+      case 'lesson_35': return const AlthoughTableWidget();
+      case 'lesson_36': return const InSpiteOfTableWidget();
+      case 'lesson_37': return const BecauseOfTableWidget();
+      case 'lesson_38': return const SoSuchTooTableWidget();
+      case 'lesson_39': return const AsWellAsTableWidget();
+      case 'lesson_40': return const NotOnlyButAlsoTableWidget();
+      case 'lesson_41': return const WouldRatherTableWidget();
+      case 'lesson_42': return const PreferTableWidget();
+      case 'lesson_43': return const RefuseTableWidget();
+      case 'lesson_44': return const LetTableWidget();
+      case 'lesson_45': return const LetsTableWidget();
+      case 'lesson_46': return const DifficultTableWidget();
+      case 'lesson_47': return const PromiseTableWidget();
+      case 'lesson_48': return const AvoidTableWidget();
+      case 'lesson_49': return const AdviseTableWidget();
+      case 'lesson_50': return const AfterTableWidget();
+      case 'lesson_51': return const AskTableWidget();
+      case 'lesson_52': return const EnjoyTableWidget();
+      case 'lesson_53': return const MustTableWidget();
+      case 'lesson_54': return const AsMuchAsTableWidget();
+      case 'lesson_55': return const WhenWhileTableWidget();
+      case 'lesson_56': return const FindTableWidget();
+      case 'lesson_57': return const RememberTableWidget();
+      case 'lesson_58': return const UnlessTableWidget();
+      case 'lesson_59': return const HadBetterTableWidget();
+      case 'lesson_60': return const DespiteTableWidget();
+      case 'lesson_61': return const ItWasNotUntilTableWidget();
+      case 'lesson_62': return const NeedTableWidget();
+      case 'lesson_63': return const RegretTableWidget();
+      case 'lesson_64': return const StopTableWidget();
+      default: return const SizedBox.shrink();
+    }
   }
 
   Widget _buildExamplesTab() {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/firebase_grammar_lesson_service.dart';
+import '../../data/grammar_content_data.dart';
 import '../../models/grammar_lesson.dart';
 import 'grammar_lessons_screen.dart';
 import 'grammar_tenses_screen.dart';
@@ -12,7 +12,6 @@ class GrammarCategoriesScreen extends StatefulWidget {
 }
 
 class _GrammarCategoriesScreenState extends State<GrammarCategoriesScreen> {
-  final _service = FirebaseGrammarLessonService();
   List<GrammarCategory> _categories = [];
   bool _isLoading = true;
 
@@ -24,7 +23,9 @@ class _GrammarCategoriesScreenState extends State<GrammarCategoriesScreen> {
 
   Future<void> _loadCategories() async {
     try {
-      final categories = await _service.getCategories();
+      // Use local mock data instead of Firebase
+      await Future.delayed(const Duration(milliseconds: 300)); // Simulate loading
+      final categories = GrammarContentData.getCategories();
       setState(() {
         _categories = categories;
         _isLoading = false;
