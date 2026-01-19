@@ -424,11 +424,7 @@ class _GrammarLessonDetailScreenState extends State<GrammarLessonDetailScreen> w
 
   Widget _buildFormulaSection() {
     // Check if this is a Category 3 lesson (Parts of Speech)
-    final isCategory3 = widget.lesson.id == 'lesson_14' || widget.lesson.id == 'lesson_15' ||
-                        widget.lesson.id == 'lesson_16' || widget.lesson.id == 'lesson_17' ||
-                        widget.lesson.id == 'lesson_18' || widget.lesson.id == 'lesson_19' ||
-                        widget.lesson.id == 'lesson_20' || widget.lesson.id == 'lesson_21' ||
-                        widget.lesson.id == 'lesson_22';
+    final isCategory3 = widget.lesson.categoryId == 'cat_3';
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -439,149 +435,149 @@ class _GrammarLessonDetailScreenState extends State<GrammarLessonDetailScreen> w
         ),
         const SizedBox(height: 12),
 
-        if (widget.lesson.id == 'lesson_1') ...[
+        if (widget.lesson.id == 'cat1_present_simple') ...[
           const FormulaTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_2') ...[
+        ] else if (widget.lesson.id == 'cat1_present_continuous') ...[
           const PresentContinuousTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_3') ...[
+        ] else if (widget.lesson.id == 'cat1_past_simple') ...[
           const PastSimpleTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_3_1') ...[
+        ] else if (widget.lesson.id == 'cat1_past_continuous') ...[
           const PastContinuousTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_3_2') ...[
+        ] else if (widget.lesson.id == 'cat1_past_perfect') ...[
           const PastPerfectTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_3_3') ...[
+        ] else if (widget.lesson.id == 'cat1_past_perfect_continuous') ...[
           const PastPerfectContinuousTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_4') ...[
+        ] else if (widget.lesson.id == 'cat1_future_simple') ...[
           const FutureSimpleTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_4_1') ...[
+        ] else if (widget.lesson.id == 'cat1_future_continuous') ...[
           const FutureContinuousTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_4_2') ...[
+        ] else if (widget.lesson.id == 'cat1_future_perfect') ...[
           const FuturePerfectTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_4_3') ...[
+        ] else if (widget.lesson.id == 'cat1_future_perfect_continuous') ...[
           const FuturePerfectContinuousTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_5') ...[
+        ] else if (widget.lesson.id == 'cat1_present_perfect') ...[
           const PresentPerfectTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_1_6') ...[
+        ] else if (widget.lesson.id == 'cat1_present_perfect_continuous') ...[
           const PresentPerfectContinuousTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_6') ...[
+        ] else if (widget.lesson.id == 'cat2_comparatives') ...[
           const ComparativesTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_7') ...[
+        ] else if (widget.lesson.id == 'cat2_conditionals') ...[
           const ConditionalsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_8') ...[
+        ] else if (widget.lesson.id == 'cat2_wish_sentences') ...[
           const WishTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_9') ...[
+        ] else if (widget.lesson.id == 'cat2_active_passive') ...[
           const PassiveVoiceTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_10') ...[
+        ] else if (widget.lesson.id == 'cat2_subjunctive') ...[
           const SubjunctiveTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_11') ...[
+        ] else if (widget.lesson.id == 'cat2_imperative') ...[
           const ImperativeTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_12') ...[
+        ] else if (widget.lesson.id == 'cat2_direct_indirect') ...[
           const ReportedSpeechTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_13') ...[
+        ] else if (widget.lesson.id == 'cat2_relative_clauses') ...[
           const RelativeClausesTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_14') ...[
+        ] else if (widget.lesson.id == 'cat3_pronouns') ...[
           const PronounsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_15') ...[
+        ] else if (widget.lesson.id == 'cat3_nouns') ...[
           const NounsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_16') ...[
+        ] else if (widget.lesson.id == 'cat3_adjectives') ...[
           const AdjectivesTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_17') ...[
+        ] else if (widget.lesson.id == 'cat3_verbs') ...[
           const VerbsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_18') ...[
+        ] else if (widget.lesson.id == 'cat3_adverbs') ...[
           const AdverbsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_19') ...[
+        ] else if (widget.lesson.id == 'cat3_prepositions') ...[
           const QuantifiersTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_20') ...[
+        ] else if (widget.lesson.id == 'cat3_conjunctions') ...[
           const PrepositionsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_21') ...[
+        ] else if (widget.lesson.id == 'cat3_articles') ...[
           const ArticlesTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_22') ...[
+        ] else if (widget.lesson.id == 'cat3_interjections') ...[
           const ConjunctionsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_23') ...[
+        ] else if (widget.lesson.id == 'cat4_yes_no_questions') ...[
           const QuestionWordsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_24') ...[
+        ] else if (widget.lesson.id == 'cat4_wh_questions') ...[
           const YesNoQuestionsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_25') ...[
+        ] else if (widget.lesson.id == 'cat4_tag_questions') ...[
           const WhQuestionsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_26') ...[
+        ] else if (widget.lesson.id == 'cat4_indirect_questions') ...[
           const TagQuestionsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_27') ...[
+        ] else if (widget.lesson.id == 'cat4_choice_questions') ...[
           const IndirectQuestionsTableWidget(),
         ] 
-        // Category 5 lessons (28-64)
-        else if (widget.lesson.id == 'lesson_28') ...[
+        // Category 5 lessons
+        else if (widget.lesson.id == 'cat5_enough') ...[
           const EnoughTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_29') ...[
+        ] else if (widget.lesson.id == 'cat5_suggest') ...[
           const SuggestTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_30') ...[
+        ] else if (widget.lesson.id == 'cat5_hope') ...[
           const HopeTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_31') ...[
+        ] else if (widget.lesson.id == 'cat5_used_to') ...[
           const UsedToTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_32') ...[
+        ] else if (widget.lesson.id == 'cat5_mind') ...[
           const MindTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_33') ...[
+        ] else if (widget.lesson.id == 'cat5_would_you_like') ...[
           const WouldYouLikeTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_34') ...[
+        ] else if (widget.lesson.id == 'cat5_as_if') ...[
           const AsIfTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_35') ...[
+        ] else if (widget.lesson.id == 'cat5_although') ...[
           const AlthoughTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_36') ...[
+        ] else if (widget.lesson.id == 'cat5_in_spite_of') ...[
           const InSpiteOfTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_37') ...[
+        ] else if (widget.lesson.id == 'cat5_because_of') ...[
           const BecauseOfTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_38') ...[
+        ] else if (widget.lesson.id == 'cat5_so_such_too') ...[
           const SoSuchTooTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_39') ...[
+        ] else if (widget.lesson.id == 'cat5_as_well_as') ...[
           const AsWellAsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_40') ...[
+        ] else if (widget.lesson.id == 'cat5_not_only_but_also') ...[
           const NotOnlyButAlsoTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_41') ...[
+        ] else if (widget.lesson.id == 'cat5_would_rather') ...[
           const WouldRatherTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_42') ...[
+        ] else if (widget.lesson.id == 'cat5_prefer') ...[
           const PreferTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_43') ...[
+        ] else if (widget.lesson.id == 'cat5_refuse') ...[
           const RefuseTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_44') ...[
+        ] else if (widget.lesson.id == 'cat5_let') ...[
           const LetTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_45') ...[
+        ] else if (widget.lesson.id == 'cat5_lets') ...[
           const LetsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_46') ...[
+        ] else if (widget.lesson.id == 'cat5_difficult') ...[
           const DifficultTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_47') ...[
+        ] else if (widget.lesson.id == 'cat5_promise') ...[
           const PromiseTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_48') ...[
+        ] else if (widget.lesson.id == 'cat5_avoid') ...[
           const AvoidTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_49') ...[
+        ] else if (widget.lesson.id == 'cat5_advise') ...[
           const AdviseTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_50') ...[
+        ] else if (widget.lesson.id == 'cat5_after') ...[
           const AfterTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_51') ...[
+        ] else if (widget.lesson.id == 'cat5_ask') ...[
           const AskTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_52') ...[
+        ] else if (widget.lesson.id == 'cat5_enjoy') ...[
           const EnjoyTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_53') ...[
+        ] else if (widget.lesson.id == 'cat5_must') ...[
           const MustTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_54') ...[
+        ] else if (widget.lesson.id == 'cat5_as_much_as') ...[
           const AsMuchAsTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_55') ...[
+        ] else if (widget.lesson.id == 'cat5_when_while') ...[
           const WhenWhileTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_56') ...[
+        ] else if (widget.lesson.id == 'cat5_find') ...[
           const FindTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_57') ...[
+        ] else if (widget.lesson.id == 'cat5_remember') ...[
           const RememberTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_58') ...[
+        ] else if (widget.lesson.id == 'cat5_unless') ...[
           const UnlessTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_59') ...[
+        ] else if (widget.lesson.id == 'cat5_had_better') ...[
           const HadBetterTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_60') ...[
+        ] else if (widget.lesson.id == 'cat5_despite') ...[
           const DespiteTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_61') ...[
+        ] else if (widget.lesson.id == 'cat5_it_was_not_until') ...[
           const ItWasNotUntilTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_62') ...[
+        ] else if (widget.lesson.id == 'cat5_need') ...[
           const NeedTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_63') ...[
+        ] else if (widget.lesson.id == 'cat5_regret') ...[
           const RegretTableWidget(),
-        ] else if (widget.lesson.id == 'lesson_64') ...[
+        ] else if (widget.lesson.id == 'cat5_stop') ...[
           const StopTableWidget(),
         ] else ...[
           ...widget.lesson.formulas.map((formula) => _buildFormulaCard(formula)),
@@ -592,43 +588,43 @@ class _GrammarLessonDetailScreenState extends State<GrammarLessonDetailScreen> w
 
   Widget _buildCategory5FormulaTable() {
     switch (widget.lesson.id) {
-      case 'lesson_28': return const EnoughTableWidget();
-      case 'lesson_29': return const SuggestTableWidget();
-      case 'lesson_30': return const HopeTableWidget();
-      case 'lesson_31': return const UsedToTableWidget();
-      case 'lesson_32': return const MindTableWidget();
-      case 'lesson_33': return const WouldYouLikeTableWidget();
-      case 'lesson_34': return const AsIfTableWidget();
-      case 'lesson_35': return const AlthoughTableWidget();
-      case 'lesson_36': return const InSpiteOfTableWidget();
-      case 'lesson_37': return const BecauseOfTableWidget();
-      case 'lesson_38': return const SoSuchTooTableWidget();
-      case 'lesson_39': return const AsWellAsTableWidget();
-      case 'lesson_40': return const NotOnlyButAlsoTableWidget();
-      case 'lesson_41': return const WouldRatherTableWidget();
-      case 'lesson_42': return const PreferTableWidget();
-      case 'lesson_43': return const RefuseTableWidget();
-      case 'lesson_44': return const LetTableWidget();
-      case 'lesson_45': return const LetsTableWidget();
-      case 'lesson_46': return const DifficultTableWidget();
-      case 'lesson_47': return const PromiseTableWidget();
-      case 'lesson_48': return const AvoidTableWidget();
-      case 'lesson_49': return const AdviseTableWidget();
-      case 'lesson_50': return const AfterTableWidget();
-      case 'lesson_51': return const AskTableWidget();
-      case 'lesson_52': return const EnjoyTableWidget();
-      case 'lesson_53': return const MustTableWidget();
-      case 'lesson_54': return const AsMuchAsTableWidget();
-      case 'lesson_55': return const WhenWhileTableWidget();
-      case 'lesson_56': return const FindTableWidget();
-      case 'lesson_57': return const RememberTableWidget();
-      case 'lesson_58': return const UnlessTableWidget();
-      case 'lesson_59': return const HadBetterTableWidget();
-      case 'lesson_60': return const DespiteTableWidget();
-      case 'lesson_61': return const ItWasNotUntilTableWidget();
-      case 'lesson_62': return const NeedTableWidget();
-      case 'lesson_63': return const RegretTableWidget();
-      case 'lesson_64': return const StopTableWidget();
+      case 'cat5_enough': return const EnoughTableWidget();
+      case 'cat5_suggest': return const SuggestTableWidget();
+      case 'cat5_hope': return const HopeTableWidget();
+      case 'cat5_used_to': return const UsedToTableWidget();
+      case 'cat5_mind': return const MindTableWidget();
+      case 'cat5_would_you_like': return const WouldYouLikeTableWidget();
+      case 'cat5_as_if': return const AsIfTableWidget();
+      case 'cat5_although': return const AlthoughTableWidget();
+      case 'cat5_in_spite_of': return const InSpiteOfTableWidget();
+      case 'cat5_because_of': return const BecauseOfTableWidget();
+      case 'cat5_so_such_too': return const SoSuchTooTableWidget();
+      case 'cat5_as_well_as': return const AsWellAsTableWidget();
+      case 'cat5_not_only_but_also': return const NotOnlyButAlsoTableWidget();
+      case 'cat5_would_rather': return const WouldRatherTableWidget();
+      case 'cat5_prefer': return const PreferTableWidget();
+      case 'cat5_refuse': return const RefuseTableWidget();
+      case 'cat5_let': return const LetTableWidget();
+      case 'cat5_lets': return const LetsTableWidget();
+      case 'cat5_difficult': return const DifficultTableWidget();
+      case 'cat5_promise': return const PromiseTableWidget();
+      case 'cat5_avoid': return const AvoidTableWidget();
+      case 'cat5_advise': return const AdviseTableWidget();
+      case 'cat5_after': return const AfterTableWidget();
+      case 'cat5_ask': return const AskTableWidget();
+      case 'cat5_enjoy': return const EnjoyTableWidget();
+      case 'cat5_must': return const MustTableWidget();
+      case 'cat5_as_much_as': return const AsMuchAsTableWidget();
+      case 'cat5_when_while': return const WhenWhileTableWidget();
+      case 'cat5_find': return const FindTableWidget();
+      case 'cat5_remember': return const RememberTableWidget();
+      case 'cat5_unless': return const UnlessTableWidget();
+      case 'cat5_had_better': return const HadBetterTableWidget();
+      case 'cat5_despite': return const DespiteTableWidget();
+      case 'cat5_it_was_not_until': return const ItWasNotUntilTableWidget();
+      case 'cat5_need': return const NeedTableWidget();
+      case 'cat5_regret': return const RegretTableWidget();
+      case 'cat5_stop': return const StopTableWidget();
       default: return const SizedBox.shrink();
     }
   }

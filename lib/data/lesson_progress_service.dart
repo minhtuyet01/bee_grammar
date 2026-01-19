@@ -15,7 +15,8 @@ class LessonProgressService {
       final docRef = _firestore.collection('lesson_progress').doc('${userId}_$lessonId');
       final doc = await docRef.get();
 
-      final theoryRead = timeSpent >= 30 && scrolled;
+      // Increased from 30s to 60s for better engagement
+      final theoryRead = timeSpent >= 60 && scrolled;
 
       if (!doc.exists) {
         await docRef.set({
@@ -27,7 +28,7 @@ class LessonProgressService {
           'examplesViewed': false,
           'exercisesCompleted': false,
           'lastUpdated': DateTime.now(),
-          'progressPercentage': theoryRead ? 40 : 0,
+          'progressPercentage': theoryRead ? 30 : 0,
         });
       } else {
         final data = doc.data()!;
@@ -42,6 +43,11 @@ class LessonProgressService {
           'lastUpdated': DateTime.now(),
           'progressPercentage': progress,
         });
+        // Update streak if progress >= 50% (theory + examples)
+        if (progress >= 50) {
+          final progressService = FirebaseUserProgressService();
+          await progressService.checkAndUpdateStreak(userId);
+        }
       }
     } catch (e) {
       print('Error updating theory progress: $e');
@@ -80,6 +86,11 @@ class LessonProgressService {
           'lastUpdated': DateTime.now(),
           'progressPercentage': progress,
         });
+        // Update streak if progress >= 50% (theory + examples)
+        if (progress >= 50) {
+          final progressService = FirebaseUserProgressService();
+          await progressService.checkAndUpdateStreak(userId);
+        }
       }
     } catch (e) {
       print('Error updating examples progress: $e');
@@ -105,7 +116,7 @@ class LessonProgressService {
           'examplesViewed': false,
           'exercisesCompleted': true,
           'lastUpdated': DateTime.now(),
-          'progressPercentage': 40,
+          'progressPercentage': 50,
         });
       } else {
         final data = doc.data()!;
@@ -217,20 +228,21 @@ class LessonProgressService {
   }
 
   /// Calculate progress percentage
+  /// Theory: 30%, Examples: 20%, Exercises: 50%
   int _calculateProgress(bool theoryRead, bool examplesViewed, bool exercisesCompleted) {
     int progress = 0;
-    if (theoryRead) progress += 40;
-    if (examplesViewed) progress += 20;
-    if (exercisesCompleted) progress += 40;
+    if (theoryRead) progress += 30;        // Changed from 40% to 30%
+    if (examplesViewed) progress += 20;    // Kept at 20%
+    if (exercisesCompleted) progress += 50; // Changed from 40% to 50%
     return progress;
   }
 
-  /// Check if streak should be updated (30s + scroll + interaction)
+  /// Check if streak should be updated (60s + scroll + interaction)
   bool shouldUpdateStreak({
     required int timeSpent,
     required bool scrolled,
     required bool hasInteraction,
   }) {
-    return timeSpent >= 30 && scrolled && hasInteraction;
+    return timeSpent >= 60 && scrolled && hasInteraction;
   }
 }

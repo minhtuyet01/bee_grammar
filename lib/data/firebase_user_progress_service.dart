@@ -52,7 +52,14 @@ class FirebaseUserProgressService {
         // First time
         newStreak = 1;
       } else {
-        final daysSinceLastActive = now.difference(lastActiveDate).inDays;
+        // FIX: Compare dates only, not hours
+        final lastDate = DateTime(
+          lastActiveDate.year,
+          lastActiveDate.month,
+          lastActiveDate.day,
+        );
+        final today = DateTime(now.year, now.month, now.day);
+        final daysSinceLastActive = today.difference(lastDate).inDays;
         
         if (daysSinceLastActive == 0) {
           // Same day, no change
@@ -60,9 +67,14 @@ class FirebaseUserProgressService {
         } else if (daysSinceLastActive == 1) {
           // Next day, increment
           newStreak = currentStreak + 1;
+        } else if (daysSinceLastActive == 2 && currentStreak >= 7) {
+          // Grace period: Allow 1 missed day if streak >= 7
+          newStreak = currentStreak;
+          print('⚠️ Grace period applied - streak maintained: $currentStreak days');
         } else {
           // Streak broken
           newStreak = 1;
+          print('💔 Streak broken - reset to 1 day');
         }
       }
       
