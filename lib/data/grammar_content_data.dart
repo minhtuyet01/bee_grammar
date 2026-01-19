@@ -14,9 +14,9 @@ class GrammarContentData {
         color: Colors.blue,
         order: 1,
         lessonIds: [
-          'lesson_1', 'lesson_2', 'lesson_5', 'lesson_1_6', // Present
-          'lesson_3', 'lesson_3_1', 'lesson_3_2', 'lesson_3_3', // Past
-          'lesson_4', 'lesson_4_1', 'lesson_4_2', 'lesson_4_3', // Future
+          'cat1_present_simple', 'cat1_present_continuous', 'cat1_present_perfect', 'cat1_present_perfect_continuous', // Present
+          'cat1_past_simple', 'cat1_past_continuous', 'cat1_past_perfect', 'cat1_past_perfect_continuous', // Past
+          'cat1_future_simple', 'cat1_future_continuous', 'cat1_future_perfect', 'cat1_future_perfect_continuous', // Future
         ],
       ),
       const GrammarCategory(
@@ -26,7 +26,7 @@ class GrammarContentData {
         icon: Icons.format_list_bulleted,
         color: Colors.green,
         order: 2,
-        lessonIds: ['lesson_6', 'lesson_7', 'lesson_8', 'lesson_9', 'lesson_10', 'lesson_11', 'lesson_12', 'lesson_13'],
+        lessonIds: ['cat2_comparatives', 'cat2_conditionals', 'cat2_wish_sentences', 'cat2_active_passive', 'cat2_subjunctive', 'cat2_imperative', 'cat2_direct_indirect', 'cat2_relative_clauses'],
       ),
       const GrammarCategory(
         id: 'cat_3',
@@ -35,7 +35,7 @@ class GrammarContentData {
         icon: Icons.text_fields,
         color: Colors.orange,
         order: 3,
-        lessonIds: ['lesson_14', 'lesson_15', 'lesson_16', 'lesson_17', 'lesson_18', 'lesson_19', 'lesson_20', 'lesson_21', 'lesson_22'],
+        lessonIds: ['cat3_pronouns', 'cat3_nouns', 'cat3_articles', 'cat3_adjectives', 'cat3_adverbs', 'cat3_prepositions', 'cat3_conjunctions', 'cat3_verbs', 'cat3_interjections'],
       ),
       const GrammarCategory(
         id: 'cat_4',
@@ -44,7 +44,7 @@ class GrammarContentData {
         icon: Icons.star,
         color: Colors.purple,
         order: 4,
-        lessonIds: ['lesson_23', 'lesson_24', 'lesson_25', 'lesson_26', 'lesson_27'],
+        lessonIds: ['cat4_yes_no_questions', 'cat4_wh_questions', 'cat4_tag_questions', 'cat4_indirect_questions', 'cat4_choice_questions'],
       ),
       const GrammarCategory(
         id: 'cat_5',
@@ -53,7 +53,7 @@ class GrammarContentData {
         icon: Icons.chat_bubble,
         color: Colors.teal,
         order: 5,
-        lessonIds: ['lesson_28', 'lesson_29', 'lesson_30', 'lesson_31', 'lesson_32', 'lesson_33', 'lesson_34', 'lesson_35', 'lesson_36', 'lesson_37', 'lesson_38', 'lesson_39', 'lesson_40', 'lesson_41', 'lesson_42', 'lesson_43', 'lesson_44', 'lesson_45', 'lesson_46', 'lesson_47', 'lesson_48', 'lesson_49', 'lesson_50', 'lesson_51', 'lesson_52', 'lesson_53', 'lesson_54', 'lesson_55', 'lesson_56', 'lesson_57', 'lesson_58', 'lesson_59', 'lesson_60', 'lesson_61', 'lesson_62', 'lesson_63', 'lesson_64'],
+        lessonIds: ['cat5_enough', 'cat5_suggest', 'cat5_hope', 'cat5_used_to', 'cat5_mind', 'cat5_would_you_like', 'cat5_as_if', 'cat5_although', 'cat5_in_spite_of', 'cat5_because_of', 'cat5_so_such_too', 'cat5_as_well_as', 'cat5_not_only_but_also', 'cat5_would_rather', 'cat5_prefer', 'cat5_refuse', 'cat5_let', 'cat5_lets', 'cat5_difficult', 'cat5_promise', 'cat5_avoid', 'cat5_advise', 'cat5_after', 'cat5_ask', 'cat5_enjoy', 'cat5_must', 'cat5_as_much_as', 'cat5_when_while', 'cat5_find', 'cat5_remember', 'cat5_unless', 'cat5_had_better', 'cat5_despite', 'cat5_it_was_not_until', 'cat5_need', 'cat5_regret', 'cat5_stop'],
       ),
     ];
   }
@@ -158,7 +158,7 @@ class GrammarContentData {
   // LESSON 1: Present Simple
   static GrammarLesson _createLesson1_PresentSimple() {
     return const GrammarLesson(
-      id: 'lesson_1',
+      id: 'cat1_present_simple',
       categoryId: 'cat_1',
       title: 'Thì Hiện Tại Đơn (Present Simple)',
       objective: 'Học cách diễn tả thói quen, sự thật hiển nhiên và hành động lặp đi lặp lại',
@@ -295,7 +295,7 @@ class GrammarContentData {
   // LESSON 2: Present Continuous
   static GrammarLesson _createLesson2_PresentContinuous() {
     return const GrammarLesson(
-      id: 'lesson_2',
+      id: 'cat1_present_continuous',
       categoryId: 'cat_1',
       title: 'Thì Hiện Tại Tiếp Diễn (Present Continuous)',
       objective: 'Học cách diễn tả hành động đang xảy ra tại thời điểm nói',
@@ -417,7 +417,7 @@ class GrammarContentData {
   // Placeholder for remaining lessons (will create full content)
   static GrammarLesson _createLesson3_PastSimple() {
     return const GrammarLesson(
-      id: 'lesson_3',
+      id: 'cat1_past_simple',
       categoryId: 'cat_1',
       title: 'Thì Quá Khứ Đơn (Past Simple)',
       objective: 'Học cách diễn tả hành động đã xảy ra và kết thúc trong quá khứ',
@@ -492,7 +492,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson4_Future() {
     return const GrammarLesson(
-      id: 'lesson_4',
+      id: 'cat1_future_simple',
       categoryId: 'cat_1',
       title: 'Thì Tương Lai Đơn (Future Simple)',
       objective: 'Học cách diễn tả hành động sẽ xảy ra trong tương lai',
@@ -553,7 +553,7 @@ class GrammarContentData {
   // Past Continuous
   static GrammarLesson _createLesson3_1_PastContinuous() {
     return const GrammarLesson(
-      id: 'lesson_3_1',
+      id: 'cat1_past_continuous',
       categoryId: 'cat_1',
       title: 'Thì Quá Khứ Tiếp Diễn (Past Continuous)',
       objective: 'Học cách diễn tả hành động đang diễn ra tại một thời điểm trong quá khứ',
@@ -616,7 +616,7 @@ class GrammarContentData {
   // Past Perfect
   static GrammarLesson _createLesson3_2_PastPerfect() {
     return const GrammarLesson(
-      id: 'lesson_3_2',
+      id: 'cat1_past_perfect',
       categoryId: 'cat_1',
       title: 'Thì Quá Khứ Hoàn Thành (Past Perfect)',
       objective: 'Học cách diễn tả hành động đã hoàn thành trước một thời điểm/hành động khác trong quá khứ',
@@ -684,7 +684,7 @@ class GrammarContentData {
   // Past Perfect Continuous
   static GrammarLesson _createLesson3_3_PastPerfectContinuous() {
     return const GrammarLesson(
-      id: 'lesson_3_3',
+      id: 'cat1_past_perfect_continuous',
       categoryId: 'cat_1',
       title: 'Thì Quá Khứ Hoàn Thành Tiếp Diễn (Past Perfect Continuous)',
       objective: 'Học cách diễn tả hành động đã và đang diễn ra trước một thời điểm trong quá khứ',
@@ -747,7 +747,7 @@ class GrammarContentData {
   // Present Perfect Continuous (moved here)
   static GrammarLesson _createLesson1_6_PresentPerfectContinuous() {
     return const GrammarLesson(
-      id: 'lesson_1_6',
+      id: 'cat1_present_perfect_continuous',
       categoryId: 'cat_1',
       title: 'Thì Hiện Tại Hoàn Thành Tiếp Diễn (Present Perfect Continuous)',
       objective: 'Học cách diễn tả hành động bắt đầu trong quá khứ, vẫn đang tiếp diễn và nhấn mạnh tính liên tục',
@@ -803,7 +803,7 @@ class GrammarContentData {
   // Future Continuous
   static GrammarLesson _createLesson4_1_FutureContinuous() {
     return const GrammarLesson(
-      id: 'lesson_4_1',
+      id: 'cat1_future_continuous',
       categoryId: 'cat_1',
       title: 'Thì Tương Lai Tiếp Diễn (Future Continuous)',
       objective: 'Học cách diễn tả hành động sẽ đang diễn ra tại một thời điểm trong tương lai',
@@ -866,7 +866,7 @@ class GrammarContentData {
   // Future Perfect
   static GrammarLesson _createLesson4_2_FuturePerfect() {
     return const GrammarLesson(
-      id: 'lesson_4_2',
+      id: 'cat1_future_perfect',
       categoryId: 'cat_1',
       title: 'Thì Tương Lai Hoàn Thành (Future Perfect)',
       objective: 'Học cách diễn tả hành động sẽ hoàn thành trước một thời điểm trong tương lai',
@@ -929,7 +929,7 @@ class GrammarContentData {
   // Future Perfect Continuous
   static GrammarLesson _createLesson4_3_FuturePerfectContinuous() {
     return const GrammarLesson(
-      id: 'lesson_4_3',
+      id: 'cat1_future_perfect_continuous',
       categoryId: 'cat_1',
       title: 'Thì Tương Lai Hoàn Thành Tiếp Diễn (Future Perfect Continuous)',
       objective: 'Học cách diễn tả hành động sẽ đã và đang diễn ra trước một thời điểm trong tương lai',
@@ -991,7 +991,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson5_PresentPerfect() {
     return const GrammarLesson(
-      id: 'lesson_5',
+      id: 'cat1_present_perfect',
       categoryId: 'cat_1',
       title: 'Thì Hiện Tại Hoàn Thành (Present Perfect)',
       objective: 'Học cách diễn tả hành động đã xảy ra nhưng còn liên quan đến hiện tại',
@@ -1060,7 +1060,7 @@ class GrammarContentData {
   // Placeholder methods for remaining lessons
   static GrammarLesson _createLesson6_AffirmativeSentence() {
     return const GrammarLesson(
-      id: 'lesson_6',
+      id: 'cat2_comparatives',
       categoryId: 'cat_2',
       title: 'Câu Khẳng Định (Affirmative Sentence)',
       objective: 'Học cách xây dựng câu khẳng định cơ bản trong tiếng Anh',
@@ -1127,7 +1127,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson7_NegativeSentence() {
     return const GrammarLesson(
-      id: 'lesson_7',
+      id: 'cat2_conditionals',
       categoryId: 'cat_2',
       title: 'Câu Phủ Định (Negative Sentence)',
       objective: 'Học cách xây dựng câu phủ định trong tiếng Anh',
@@ -1194,7 +1194,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson8_QuestionSentence() {
     return const GrammarLesson(
-      id: 'lesson_8',
+      id: 'cat2_wish_sentences',
       categoryId: 'cat_2',
       title: 'Câu Nghi Vấn (Question Sentence)',
       objective: 'Học cách đặt câu hỏi Yes/No trong tiếng Anh',
@@ -1261,7 +1261,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson9_ImperativeSentence() {
     return const GrammarLesson(
-      id: 'lesson_9',
+      id: 'cat2_active_passive',
       categoryId: 'cat_2',
       title: 'Câu Mệnh Lệnh (Imperative Sentence)',
       objective: 'Học cách ra lệnh, yêu cầu, khuyên bảo trong tiếng Anh',
@@ -1330,7 +1330,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson10_WHQuestions() {
     return const GrammarLesson(
-      id: 'lesson_10',
+      id: 'cat2_subjunctive',
       categoryId: 'cat_2',
       title: 'Câu Hỏi WH- (WH- Questions)',
       objective: 'Học cách đặt câu hỏi với từ để hỏi WH- trong tiếng Anh',
@@ -1406,7 +1406,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson11_Nouns() {
     return const GrammarLesson(
-      id: 'lesson_11',
+      id: 'cat2_imperative',
       categoryId: 'cat_3',
       title: 'Danh Từ (Noun)',
       objective: 'Học về danh từ và cách sử dụng danh từ đếm được, không đếm được',
@@ -1475,7 +1475,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson12_Verbs() {
     return const GrammarLesson(
-      id: 'lesson_12',
+      id: 'cat2_direct_indirect',
       categoryId: 'cat_3',
       title: 'Động Từ (Verb)',
       objective: 'Học về các loại động từ và cách chia động từ trong tiếng Anh',
@@ -1544,7 +1544,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson13_Adjectives() {
     return const GrammarLesson(
-      id: 'lesson_13',
+      id: 'cat2_relative_clauses',
       categoryId: 'cat_3',
       title: 'Tính Từ (Adjective)',
       objective: 'Học về tính từ và cách sử dụng tính từ trong tiếng Anh',
@@ -1613,7 +1613,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson14_Adverbs() {
     return const GrammarLesson(
-      id: 'lesson_14',
+      id: 'cat3_pronouns',
       categoryId: 'cat_3',
       title: 'Trạng Từ (Adverb)',
       objective: 'Học về trạng từ và cách sử dụng trạng từ trong tiếng Anh',
@@ -1682,7 +1682,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson15_Pronouns() {
     return const GrammarLesson(
-      id: 'lesson_15',
+      id: 'cat3_nouns',
       categoryId: 'cat_3',
       title: 'Đại Từ (Pronoun)',
       objective: 'Học về các loại đại từ trong tiếng Anh',
@@ -1751,7 +1751,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson16_Articles() {
     return const GrammarLesson(
-      id: 'lesson_16',
+      id: 'cat3_articles',
       categoryId: 'cat_3',
       title: 'Mạo Từ (Articles: a, an, the)',
       objective: 'Học cách sử dụng mạo từ a, an, the trong tiếng Anh',
@@ -1821,7 +1821,7 @@ class GrammarContentData {
   
   static GrammarLesson _createLesson17_PassiveVoice() {
     return const GrammarLesson(
-      id: 'lesson_17',
+      id: 'cat3_adjectives',
       categoryId: 'cat_4',
       title: 'Câu Bị Động (Passive Voice)',
       objective: 'Học cách chuyển câu chủ động sang câu bị động',
@@ -1890,7 +1890,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson18_ConditionalType1() {
     return const GrammarLesson(
-      id: 'lesson_18',
+      id: 'cat3_adverbs',
       categoryId: 'cat_4',
       title: 'Câu Điều Kiện Loại 1 (Conditional Type 1)',
       objective: 'Học cách diễn tả điều kiện có thể xảy ra trong tương lai',
@@ -1959,7 +1959,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson19_Comparatives() {
     return const GrammarLesson(
-      id: 'lesson_19',
+      id: 'cat3_prepositions',
       categoryId: 'cat_4',
       title: 'So Sánh Hơn và Nhất (Comparatives and Superlatives)',
       objective: 'Học cách so sánh giữa 2 hoặc nhiều đối tượng',
@@ -2028,7 +2028,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson20_ThereIsAre() {
     return const GrammarLesson(
-      id: 'lesson_20',
+      id: 'cat3_conjunctions',
       categoryId: 'cat_4',
       title: 'There is / There are',
       objective: 'Học cách diễn tả sự tồn tại của người/vật',
@@ -2097,7 +2097,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson21_ModalVerbs() {
     return const GrammarLesson(
-      id: 'lesson_21',
+      id: 'cat3_verbs',
       categoryId: 'cat_4',
       title: 'Modal Verbs (can, must, should)',
       objective: 'Học cách sử dụng các động từ khuyết thiếu cơ bản',
@@ -2167,7 +2167,7 @@ class GrammarContentData {
   
   static GrammarLesson _createLesson22_WouldYouLike() {
     return const GrammarLesson(
-      id: 'lesson_22',
+      id: 'cat3_interjections',
       categoryId: 'cat_5',
       title: 'Would you like...?',
       objective: 'Học cách mời, đề nghị lịch sự trong tiếng Anh',
@@ -2236,7 +2236,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson23_HowAboutLets() {
     return const GrammarLesson(
-      id: 'lesson_23',
+      id: 'cat4_yes_no_questions',
       categoryId: 'cat_5',
       title: 'How about...? / Let\'s...',
       objective: 'Học cách gợi ý, rủ rêu trong tiếng Anh',
@@ -2305,7 +2305,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson24_DoYouMind() {
     return const GrammarLesson(
-      id: 'lesson_24',
+      id: 'cat4_wh_questions',
       categoryId: 'cat_5',
       title: 'Do you mind if...?',
       objective: 'Học cách xin phép lịch sự trong tiếng Anh',
@@ -2374,7 +2374,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson25_OtherSuggestions() {
     return const GrammarLesson(
-      id: 'lesson_25',
+      id: 'cat4_tag_questions',
       categoryId: 'cat_5',
       title: 'Các Cấu Trúc Gợi Ý Khác',
       objective: 'Học các cấu trúc gợi ý khác trong tiếng Anh',
@@ -2446,7 +2446,7 @@ class GrammarContentData {
   // LESSON 6: Câu so sánh
   static GrammarLesson _createLesson6_Comparatives() {
     return const GrammarLesson(
-      id: 'lesson_6',
+      id: 'cat2_comparatives',
       categoryId: 'cat_2',
       title: 'Câu So Sánh (Comparatives and Superlatives)',
       objective: 'Nắm vững cách so sánh mức độ giữa hai hoặc nhiều người, vật, sự việc bằng tính từ và trạng từ',
@@ -2520,7 +2520,7 @@ class GrammarContentData {
   // LESSON 7: Câu điều kiện
   static GrammarLesson _createLesson7_Conditionals() {
     return const GrammarLesson(
-      id: 'lesson_7',
+      id: 'cat2_conditionals',
       categoryId: 'cat_2',
       title: 'Câu Điều Kiện (Conditional Sentences)',
       objective: 'Hiểu và sử dụng thành thạo 4 loại câu điều kiện để diễn tả các tình huống giả định và kết quả tương ứng',
@@ -2577,7 +2577,7 @@ class GrammarContentData {
   // LESSON 8: Câu ước với wish
   static GrammarLesson _createLesson8_WishSentences() {
     return const GrammarLesson(
-      id: 'lesson_8',
+      id: 'cat2_wish_sentences',
       categoryId: 'cat_2',
       title: 'Câu Ước (Wish Sentences)',
       objective: 'Nắm vững cách diễn tả mong ước, ước muốn về điều không có thật ở hiện tại, quá khứ hoặc tương lai',
@@ -2628,7 +2628,7 @@ class GrammarContentData {
   // LESSON 9: Câu chủ động/bị động
   static GrammarLesson _createLesson9_ActivePassive() {
     return const GrammarLesson(
-      id: 'lesson_9',
+      id: 'cat2_active_passive',
       categoryId: 'cat_2',
       title: 'Câu Chủ Động và Bị Động (Active and Passive Voice)',
       objective: 'Hiểu rõ sự khác biệt giữa câu chủ động và bị động, thành thạo cách chuyển đổi giữa hai dạng câu',
@@ -2690,7 +2690,7 @@ class GrammarContentData {
   // LESSON 10: Câu giả định
   static GrammarLesson _createLesson10_Subjunctive() {
     return const GrammarLesson(
-      id: 'lesson_10',
+      id: 'cat2_subjunctive',
       categoryId: 'cat_2',
       title: 'Câu Giả Định (Subjunctive Mood)',
       objective: 'Nắm vững cách sử dụng câu giả định để diễn tả yêu cầu, đề nghị, gợi ý một cách lịch sự và trang trọng',
@@ -2738,7 +2738,7 @@ class GrammarContentData {
   // LESSON 11: Câu mệnh lệnh
   static GrammarLesson _createLesson11_Imperative() {
     return const GrammarLesson(
-      id: 'lesson_11',
+      id: 'cat2_imperative',
       categoryId: 'cat_2',
       title: 'Câu Mệnh Lệnh (Imperative Sentences)',
       objective: 'Thành thạo cách sử dụng câu mệnh lệnh để ra lệnh, yêu cầu, đưa ra hướng dẫn hoặc lời khuyên',
@@ -2793,7 +2793,7 @@ class GrammarContentData {
   // LESSON 12: Câu trực tiếp, gián tiếp
   static GrammarLesson _createLesson12_DirectIndirect() {
     return const GrammarLesson(
-      id: 'lesson_12',
+      id: 'cat2_direct_indirect',
       categoryId: 'cat_2',
       title: 'Câu Trực Tiếp và Gián Tiếp (Direct and Indirect Speech)',
       objective: 'Thành thạo cách chuyển đổi lời nói trực tiếp sang gián tiếp với các loại câu khác nhau',
@@ -2859,7 +2859,7 @@ class GrammarContentData {
   // LESSON 13: Mệnh đề quan hệ
   static GrammarLesson _createLesson13_RelativeClauses() {
     return const GrammarLesson(
-      id: 'lesson_13',
+      id: 'cat2_relative_clauses',
       categoryId: 'cat_2',
       title: 'Mệnh Đề Quan Hệ (Relative Clauses)',
       objective: 'Nắm vững cách sử dụng đại từ quan hệ để nối câu và bổ sung thông tin cho danh từ',
@@ -2914,7 +2914,7 @@ class GrammarContentData {
   // LESSON 14: Đại từ
   static GrammarLesson _createLesson14_Pronouns() {
     return const GrammarLesson(
-      id: 'lesson_14',
+      id: 'cat3_pronouns',
       categoryId: 'cat_3',
       title: 'Đại Từ (Pronouns)',
       objective: 'Nắm vững các loại đại từ và cách sử dụng chúng để thay thế danh từ, tránh lặp từ trong câu',
@@ -2961,7 +2961,7 @@ class GrammarContentData {
   // LESSON 15: Danh từ
   static GrammarLesson _createLesson15_Nouns() {
     return const GrammarLesson(
-      id: 'lesson_15',
+      id: 'cat3_nouns',
       categoryId: 'cat_3',
       title: 'Danh Từ (Nouns)',
       objective: 'Hiểu rõ các loại danh từ và cách phân biệt danh từ đếm được, không đếm được, riêng và chung',
@@ -3010,7 +3010,7 @@ class GrammarContentData {
   // LESSON 16: Tính từ
   static GrammarLesson _createLesson16_Adjectives() {
     return const GrammarLesson(
-      id: 'lesson_16',
+      id: 'cat3_articles',
       categoryId: 'cat_3',
       title: 'Tính Từ (Adjectives)',
       objective: 'Nắm vững cách sử dụng tính từ để miêu tả, bổ nghĩa cho danh từ và đại từ',
@@ -3058,7 +3058,7 @@ class GrammarContentData {
   // LESSON 17: Động từ
   static GrammarLesson _createLesson17_Verbs() {
     return const GrammarLesson(
-      id: 'lesson_17',
+      id: 'cat3_adjectives',
       categoryId: 'cat_3',
       title: 'Động Từ (Verbs)',
       objective: 'Hiểu rõ các loại động từ và vai trò của chúng trong câu, phân biệt động từ thường, trợ động từ và động từ khiếm khuyết',
@@ -3107,7 +3107,7 @@ class GrammarContentData {
   // LESSON 18: Trạng từ
   static GrammarLesson _createLesson18_Adverbs() {
     return const GrammarLesson(
-      id: 'lesson_18',
+      id: 'cat3_adverbs',
       categoryId: 'cat_3',
       title: 'Trạng Từ (Adverbs)',
       objective: 'Nắm vững cách sử dụng trạng từ để bổ nghĩa cho động từ, tính từ hoặc trạng từ khác',
@@ -3155,7 +3155,7 @@ class GrammarContentData {
   // LESSON 19: Lượng từ
   static GrammarLesson _createLesson19_Quantifiers() {
     return const GrammarLesson(
-      id: 'lesson_19',
+      id: 'cat3_prepositions',
       categoryId: 'cat_3',
       title: 'Lượng Từ (Quantifiers)',
       objective: 'Hiểu rõ cách sử dụng lượng từ với danh từ đếm được và không đếm được',
@@ -3207,7 +3207,7 @@ class GrammarContentData {
   // LESSON 20: Giới từ
   static GrammarLesson _createLesson20_Prepositions() {
     return const GrammarLesson(
-      id: 'lesson_20',
+      id: 'cat3_conjunctions',
       categoryId: 'cat_3',
       title: 'Giới Từ (Prepositions)',
       objective: 'Nắm vững cách sử dụng giới từ để chỉ thời gian, nơi chốn, hướng và mối quan hệ giữa các từ trong câu',
@@ -3258,7 +3258,7 @@ class GrammarContentData {
   // LESSON 21: Mạo từ
   static GrammarLesson _createLesson21_Articles() {
     return const GrammarLesson(
-      id: 'lesson_21',
+      id: 'cat3_verbs',
       categoryId: 'cat_3',
       title: 'Mạo Từ (Articles)',
       objective: 'Hiểu rõ cách sử dụng mạo từ a/an/the và khi nào không dùng mạo từ',
@@ -3309,7 +3309,7 @@ class GrammarContentData {
   // LESSON 22: Liên từ
   static GrammarLesson _createLesson22_Conjunctions() {
     return const GrammarLesson(
-      id: 'lesson_22',
+      id: 'cat3_interjections',
       categoryId: 'cat_3',
       title: 'Liên Từ (Conjunctions)',
       objective: 'Nắm vững cách sử dụng liên từ để nối từ, cụm từ và mệnh đề trong câu',
@@ -3362,7 +3362,7 @@ class GrammarContentData {
   // LESSON 23: Các từ để hỏi
   static GrammarLesson _createLesson23_QuestionWords() {
     return const GrammarLesson(
-      id: 'lesson_23',
+      id: 'cat4_yes_no_questions',
       categoryId: 'cat_4',
       title: 'Các Từ Để Hỏi (Question Words)',
       objective: 'Nắm vững các từ để hỏi (WH-words) và cách sử dụng chúng để hỏi về thông tin cụ thể',
@@ -3415,7 +3415,7 @@ class GrammarContentData {
   // LESSON 24: Câu hỏi dùng từ để hỏi
   static GrammarLesson _createLesson24_WHQuestions() {
     return const GrammarLesson(
-      id: 'lesson_24',
+      id: 'cat4_wh_questions',
       categoryId: 'cat_4',
       title: 'Câu Hỏi Wh-',
       objective: 'Nắm vững cách kết hợp từ để hỏi với các thì để tạo câu hỏi Wh- hoàn chỉnh',
@@ -3466,7 +3466,7 @@ class GrammarContentData {
   // LESSON 25: Câu hỏi Yes/No
   static GrammarLesson _createLesson25_YesNoQuestions() {
     return const GrammarLesson(
-      id: 'lesson_25',
+      id: 'cat4_tag_questions',
       categoryId: 'cat_4',
       title: 'Câu Hỏi Yes/No',
       objective: 'Thành thạo cách tạo câu hỏi Yes/No với các thì khác nhau và cách trả lời ngắn gọn',
@@ -3518,7 +3518,7 @@ class GrammarContentData {
   // LESSON 26: Câu hỏi lựa chọn
   static GrammarLesson _createLesson26_ChoiceQuestions() {
     return const GrammarLesson(
-      id: 'lesson_26',
+      id: 'cat4_indirect_questions',
       categoryId: 'cat_4',
       title: 'Câu Hỏi Lựa Chọn (Choice Questions)',
       objective: 'Học cách đặt câu hỏi lựa chọn giữa các phương án',
@@ -3569,7 +3569,7 @@ class GrammarContentData {
   // LESSON 27: Câu hỏi đuôi
   static GrammarLesson _createLesson27_TagQuestions() {
     return const GrammarLesson(
-      id: 'lesson_27',
+      id: 'cat4_choice_questions',
       categoryId: 'cat_4',
       title: 'Câu Hỏi Đuôi (Tag Questions)',
       objective: 'Thành thạo cách tạo câu hỏi đuôi để xác nhận thông tin hoặc tạo sự thân thiện trong giao tiếp',
@@ -3625,7 +3625,7 @@ class GrammarContentData {
   // LESSON 28: Enough
   static GrammarLesson _createLesson28_Enough() {
     return const GrammarLesson(
-      id: 'lesson_28',
+      id: 'cat5_enough',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Enough',
       objective: 'Nắm vững cách sử dụng "enough" để diễn tả đủ số lượng hoặc mức độ để làm gì đó',
@@ -3659,7 +3659,7 @@ class GrammarContentData {
   // LESSON 29: Suggest
   static GrammarLesson _createLesson29_Suggest() {
     return const GrammarLesson(
-      id: 'lesson_29',
+      id: 'cat5_suggest',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Suggest',
       objective: 'Nắm vững cách sử dụng "suggest" để đưa ra đề nghị, gợi ý một cách lịch sự',
@@ -3693,7 +3693,7 @@ class GrammarContentData {
   // LESSON 30: Hope
   static GrammarLesson _createLesson30_Hope() {
     return const GrammarLesson(
-      id: 'lesson_30',
+      id: 'cat5_hope',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Hope',
       objective: 'Nắm vững cách sử dụng "hope" để diễn tả hy vọng, mong muốn điều tốt đẹp xảy ra',
@@ -3727,7 +3727,7 @@ class GrammarContentData {
   // LESSON 31: Used to
   static GrammarLesson _createLesson31_UsedTo() {
     return const GrammarLesson(
-      id: 'lesson_31',
+      id: 'cat5_used_to',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Used To',
       objective: 'Nắm vững cách sử dụng "used to" để diễn tả thói quen hoặc trạng thái trong quá khứ',
@@ -3761,7 +3761,7 @@ class GrammarContentData {
   // LESSON 32: Mind
   static GrammarLesson _createLesson32_Mind() {
     return const GrammarLesson(
-      id: 'lesson_32',
+      id: 'cat5_mind',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Mind',
       objective: 'Nắm vững cách sử dụng "mind" để hỏi ý kiến một cách lịch sự và diễn tả phiền/không phiền',
@@ -3795,7 +3795,7 @@ class GrammarContentData {
   // LESSON 33: Would you like
   static GrammarLesson _createLesson33_WouldYouLike() {
     return const GrammarLesson(
-      id: 'lesson_33',
+      id: 'cat5_would_you_like',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Would You Like',
       objective: 'Nắm vững cách sử dụng "would you like" để mời hoặc đề nghị một cách lịch sự',
@@ -3829,7 +3829,7 @@ class GrammarContentData {
   // LESSON 34: As if / As though
   static GrammarLesson _createLesson34_AsIfAsThough() {
     return const GrammarLesson(
-      id: 'lesson_34',
+      id: 'cat5_as_if',
       categoryId: 'cat_5',
       title: 'Cách Dùng As If và As Though',
       objective: 'Nắm vững cách sử dụng "as if/as though" để diễn tả như thể, giống như',
@@ -3861,7 +3861,7 @@ class GrammarContentData {
   // LESSON 35: Although
   static GrammarLesson _createLesson35_Although() {
     return const GrammarLesson(
-      id: 'lesson_35',
+      id: 'cat5_although',
       categoryId: 'cat_5',
       title: 'Cách Dùng Although',
       objective: 'Nắm vững cách sử dụng "although" để diễn tả sự nhượng bộ, mặc dù',
@@ -3893,7 +3893,7 @@ class GrammarContentData {
   // LESSON 36: In spite of
   static GrammarLesson _createLesson36_InSpiteOf() {
     return const GrammarLesson(
-      id: 'lesson_36',
+      id: 'cat5_in_spite_of',
       categoryId: 'cat_5',
       title: 'Cách Dùng In Spite Of',
       objective: 'Nắm vững cách sử dụng "in spite of/despite" để diễn tả mặc dù với cụm danh từ',
@@ -3925,7 +3925,7 @@ class GrammarContentData {
   // LESSON 37: Because of
   static GrammarLesson _createLesson37_BecauseOf() {
     return const GrammarLesson(
-      id: 'lesson_37',
+      id: 'cat5_because_of',
       categoryId: 'cat_5',
       title: 'Cách Sử Dụng Because Of',
       objective: 'Nắm vững cách sử dụng "because of" để diễn tả nguyên nhân với cụm danh từ hoặc V-ing',
@@ -3966,7 +3966,7 @@ class GrammarContentData {
   
   static GrammarLesson _createLesson38_SoSuchToo() {
     return const GrammarLesson(
-      id: 'lesson_38',
+      id: 'cat5_so_such_too',
       categoryId: 'cat_5',
       title: 'Cấu Trúc So, Such, Too',
       objective: 'Nắm vững cách phân biệt và sử dụng "so", "such", "too" để diễn tả mức độ quá',
@@ -4021,7 +4021,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson39_AsWellAs() {
     return const GrammarLesson(
-      id: 'lesson_39',
+      id: 'cat5_as_well_as',
       categoryId: 'cat_5',
       title: 'Cấu Trúc As Well As',
       objective: 'Nắm vững cách sử dụng "as well as" để nối hai thành phần tương đương',
@@ -4069,7 +4069,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson40_NotOnlyButAlso() {
     return const GrammarLesson(
-      id: 'lesson_40',
+      id: 'cat5_not_only_but_also',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Not Only… But Also',
       objective: 'Nắm vững cách sử dụng "not only...but also" để nhấn mạnh cả hai đặc điểm',
@@ -4117,7 +4117,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson41_WouldRather() {
     return const GrammarLesson(
-      id: 'lesson_41',
+      id: 'cat5_would_rather',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Would Rather',
       objective: 'Nắm vững cách sử dụng "would rather" để diễn tả sở thích, lựa chọn',
@@ -4170,7 +4170,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson42_Prefer() {
     return const GrammarLesson(
-      id: 'lesson_42',
+      id: 'cat5_prefer',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Prefer',
       objective: 'Nắm vững cách sử dụng "prefer" để diễn tả sở thích, thích cái gì hơn',
@@ -4223,7 +4223,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson43_Refuse() {
     return const GrammarLesson(
-      id: 'lesson_43',
+      id: 'cat5_refuse',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Refuse',
       objective: 'Nắm vững cách sử dụng "refuse" để từ chối làm gì một cách lịch sự',
@@ -4272,7 +4272,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson44_Let() {
     return const GrammarLesson(
-      id: 'lesson_44',
+      id: 'cat5_let',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Let',
       objective: 'Nắm vững cách sử dụng "let" để cho phép ai đó làm gì',
@@ -4322,7 +4322,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson45_Lets() {
     return const GrammarLesson(
-      id: 'lesson_45',
+      id: 'cat5_lets',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Let\'s',
       objective: 'Nắm vững cách sử dụng "let\'s" để rủ rê, đề nghị cùng làm gì',
@@ -4375,7 +4375,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson46_Difficult() {
     return const GrammarLesson(
-      id: 'lesson_46',
+      id: 'cat5_difficult',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Difficult',
       objective: 'Nắm vững cách sử dụng "difficult" để diễn tả độ khó của việc gì đó',
@@ -4427,7 +4427,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson47_Promise() {
     return const GrammarLesson(
-      id: 'lesson_47',
+      id: 'cat5_promise',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Promise',
       objective: 'Nắm vững cách sử dụng "promise" để hứa hẹn làm gì',
@@ -4480,7 +4480,7 @@ class GrammarContentData {
   
   static GrammarLesson _createLesson48_Avoid() {
     return const GrammarLesson(
-      id: 'lesson_48',
+      id: 'cat5_avoid',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Avoid',
       objective: 'Nắm vững cách sử dụng "avoid" để tránh làm gì hoặc tránh điều gì',
@@ -4529,7 +4529,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson49_Advise() {
     return const GrammarLesson(
-      id: 'lesson_49',
+      id: 'cat5_advise',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Advise',
       objective: 'Nắm vững cách sử dụng "advise" để khuyên ai làm gì một cách trang trọng',
@@ -4581,7 +4581,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson50_After() {
     return const GrammarLesson(
-      id: 'lesson_50',
+      id: 'cat5_after',
       categoryId: 'cat_5',
       title: 'Cấu Trúc After',
       objective: 'Nắm vững cách sử dụng "after" để diễn tả thời gian sau khi làm gì',
@@ -4633,7 +4633,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson51_Asked() {
     return const GrammarLesson(
-      id: 'lesson_51',
+      id: 'cat5_ask',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Ask',
       objective: 'Nắm vững cách sử dụng "ask" để yêu cầu, đề nghị ai làm gì',
@@ -4685,7 +4685,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson52_Enjoy() {
     return const GrammarLesson(
-      id: 'lesson_52',
+      id: 'cat5_enjoy',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Enjoy',
       objective: 'Nắm vững cách sử dụng "enjoy" để diễn tả thích thú, tận hưởng việc làm gì',
@@ -4737,7 +4737,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson53_Must() {
     return const GrammarLesson(
-      id: 'lesson_53',
+      id: 'cat5_must',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Must',
       objective: 'Nắm vững cách sử dụng "must" để diễn tả sự bắt buộc, nghĩa vụ',
@@ -4791,7 +4791,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson54_AsMuchAs() {
     return const GrammarLesson(
-      id: 'lesson_54',
+      id: 'cat5_as_much_as',
       categoryId: 'cat_5',
       title: 'Cấu Trúc As Much As / As Many As',
       objective: 'Nắm vững cách sử dụng "as much as" và "as many as" để so sánh số lượng bằng nhau',
@@ -4840,7 +4840,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson55_WhenWhile() {
     return const GrammarLesson(
-      id: 'lesson_55',
+      id: 'cat5_when_while',
       categoryId: 'cat_5',
       title: 'Cấu Trúc When và While',
       objective: 'Nắm vững cách sử dụng "when" và "while" để chỉ thời gian',
@@ -4889,7 +4889,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson56_Find() {
     return const GrammarLesson(
-      id: 'lesson_56',
+      id: 'cat5_find',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Find',
       objective: 'Nắm vững cách sử dụng "find" để diễn tả nhận thấy, cảm thấy',
@@ -4938,7 +4938,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson57_Remember() {
     return const GrammarLesson(
-      id: 'lesson_57',
+      id: 'cat5_remember',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Remember',
       objective: 'Nắm vững cách sử dụng "remember" để diễn tả nhớ làm gì hoặc nhớ đã làm gì',
@@ -4987,7 +4987,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson58_Unless() {
     return const GrammarLesson(
-      id: 'lesson_58',
+      id: 'cat5_unless',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Unless',
       objective: 'Nắm vững cách sử dụng "unless" để diễn tả điều kiện "trừ khi"',
@@ -5037,7 +5037,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson59_HadBetter() {
     return const GrammarLesson(
-      id: 'lesson_59',
+      id: 'cat5_had_better',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Had Better',
       objective: 'Nắm vững cách sử dụng "had better" để khuyên nên làm gì',
@@ -5090,7 +5090,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson60_Despite() {
     return const GrammarLesson(
-      id: 'lesson_60',
+      id: 'cat5_despite',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Despite / In Spite Of',
       objective: 'Nắm vững cách sử dụng "despite" và "in spite of" để diễn tả "mặc dù"',
@@ -5143,7 +5143,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson61_ItWasNotUntil() {
     return const GrammarLesson(
-      id: 'lesson_61',
+      id: 'cat5_it_was_not_until',
       categoryId: 'cat_5',
       title: 'Cấu Trúc It Was Not Until',
       objective: 'Nắm vững cách sử dụng "it was not until" để nhấn mạnh thời gian "mãi đến khi"',
@@ -5194,7 +5194,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson62_Need() {
     return const GrammarLesson(
-      id: 'lesson_62',
+      id: 'cat5_need',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Need',
       objective: 'Nắm vững cách sử dụng "need" để diễn tả cần làm gì',
@@ -5247,7 +5247,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson63_Regret() {
     return const GrammarLesson(
-      id: 'lesson_63',
+      id: 'cat5_regret',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Regret',
       objective: 'Nắm vững cách sử dụng "regret" để diễn tả hối tiếc',
@@ -5298,7 +5298,7 @@ class GrammarContentData {
 
   static GrammarLesson _createLesson64_Stop() {
     return const GrammarLesson(
-      id: 'lesson_64',
+      id: 'cat5_stop',
       categoryId: 'cat_5',
       title: 'Cấu Trúc Stop',
       objective: 'Nắm vững cách sử dụng "stop" để diễn tả dừng làm gì',

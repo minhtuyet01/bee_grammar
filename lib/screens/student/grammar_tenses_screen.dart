@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../data/grammar_content_data.dart';
+import '../../data/grammar_content_service.dart';
 import '../../data/lesson_progress_service.dart';
 import '../../models/grammar_lesson.dart';
 import '../../widgets/lesson_progress_bar.dart';
+import '../../widgets/skeleton_loading.dart';
 import 'grammar_lesson_detail_screen.dart';
 
 class GrammarTensesScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class _GrammarTensesScreenState extends State<GrammarTensesScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final _progressService = LessonProgressService();
+  final _contentService = GrammarContentService();
   List<GrammarLesson> _allLessons = [];
   Map<String, int> _progressMap = {};
   bool _isLoading = true;
@@ -37,9 +39,8 @@ class _GrammarTensesScreenState extends State<GrammarTensesScreen>
 
   Future<void> _loadLessons() async {
     try {
-      // Use local mock data instead of Firebase
-      await Future.delayed(const Duration(milliseconds: 300)); // Simulate loading
-      final lessons = GrammarContentData.getLessonsByCategory(widget.category.id);
+      // Load from Firebase with caching
+      final lessons = await _contentService.getLessonsByCategory(widget.category.id);
       setState(() {
         _allLessons = lessons;
       });
@@ -103,13 +104,13 @@ class _GrammarTensesScreenState extends State<GrammarTensesScreen>
         ),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const LessonListSkeleton(itemCount: 4)
           : TabBarView(
               controller: _tabController,
               children: [
-                _buildTenseTab(['lesson_1', 'lesson_2', 'lesson_5', 'lesson_1_6'], Colors.blue),
-                _buildTenseTab(['lesson_3', 'lesson_3_1', 'lesson_3_2', 'lesson_3_3'], Colors.orange),
-                _buildTenseTab(['lesson_4', 'lesson_4_1', 'lesson_4_2', 'lesson_4_3'], Colors.purple),
+                _buildTenseTab(['cat1_present_simple', 'cat1_present_continuous', 'cat1_present_perfect', 'cat1_present_perfect_continuous'], Colors.blue),
+                _buildTenseTab(['cat1_past_simple', 'cat1_past_continuous', 'cat1_past_perfect', 'cat1_past_perfect_continuous'], Colors.orange),
+                _buildTenseTab(['cat1_future_simple', 'cat1_future_continuous', 'cat1_future_perfect', 'cat1_future_perfect_continuous'], Colors.purple),
               ],
             ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../data/grammar_content_data.dart';
+import '../../data/grammar_content_service.dart';
 import '../../models/grammar_lesson.dart';
+import '../../widgets/skeleton_loading.dart';
 import 'grammar_lessons_screen.dart';
 import 'grammar_tenses_screen.dart';
 
@@ -12,6 +13,7 @@ class GrammarCategoriesScreen extends StatefulWidget {
 }
 
 class _GrammarCategoriesScreenState extends State<GrammarCategoriesScreen> {
+  final _contentService = GrammarContentService();
   List<GrammarCategory> _categories = [];
   bool _isLoading = true;
 
@@ -23,9 +25,8 @@ class _GrammarCategoriesScreenState extends State<GrammarCategoriesScreen> {
 
   Future<void> _loadCategories() async {
     try {
-      // Use local mock data instead of Firebase
-      await Future.delayed(const Duration(milliseconds: 300)); // Simulate loading
-      final categories = GrammarContentData.getCategories();
+      // Load from Firebase with caching
+      final categories = await _contentService.getCategories();
       setState(() {
         _categories = categories;
         _isLoading = false;
@@ -47,7 +48,7 @@ class _GrammarCategoriesScreenState extends State<GrammarCategoriesScreen> {
         backgroundColor: const Color(0xFFD4A574),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const CategoryListSkeleton(itemCount: 5)
           : ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: _categories.length,

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../data/grammar_content_data.dart';
+import '../../data/grammar_content_service.dart';
 import '../../data/lesson_progress_service.dart';
 import '../../models/grammar_lesson.dart';
 import '../../widgets/lesson_progress_bar.dart';
+import '../../widgets/skeleton_loading.dart';
 import 'grammar_lesson_detail_screen.dart';
 
 class GrammarLessonsScreen extends StatefulWidget {
@@ -17,7 +18,9 @@ class GrammarLessonsScreen extends StatefulWidget {
 
 class _GrammarLessonsScreenState extends State<GrammarLessonsScreen> {
   final _progressService = LessonProgressService();
+  final _contentService = GrammarContentService();
   Map<String, int> _progressMap = {};
+  List<GrammarLesson> _lessons = [];
   bool _isLoading = true;
 
   @override
@@ -33,7 +36,8 @@ class _GrammarLessonsScreenState extends State<GrammarLessonsScreen> {
       return;
     }
 
-    final lessons = GrammarContentData.getLessonsByCategory(widget.category.id);
+    // Load lessons from Firebase with caching
+    final lessons = await _contentService.getLessonsByCategory(widget.category.id);
     final lessonIds = lessons.map((l) => l.id).toList();
 
     final progressMap = await _progressService.getMultipleLessonsProgress(
@@ -43,6 +47,7 @@ class _GrammarLessonsScreenState extends State<GrammarLessonsScreen> {
 
     if (mounted) {
       setState(() {
+        _lessons = lessons;
         _progressMap = progressMap;
         _isLoading = false;
       });
@@ -51,19 +56,18 @@ class _GrammarLessonsScreenState extends State<GrammarLessonsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final lessons = GrammarContentData.getLessonsByCategory(widget.category.id);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.category.title),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const LessonListSkeleton(itemCount: 10)
           : ListView.builder(
               padding: const EdgeInsets.all(16),
-              itemCount: lessons.length,
+              itemCount: _lessons.length,
               itemBuilder: (context, index) {
-                final lesson = lessons[index];
+                final lesson = _lessons[index];
                 final progress = _progressMap[lesson.id] ?? 0;
                 return _buildLessonCard(context, lesson, index + 1, progress);
               },
