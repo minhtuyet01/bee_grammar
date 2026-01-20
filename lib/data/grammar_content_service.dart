@@ -139,13 +139,86 @@ class GrammarContentService {
     }
   }
 
-  /// Get lessons by category (with caching)
+  /// Get lessons by category (with lazy loading and caching)
+  /// This is MUCH faster than getAllLessons() - only fetches lessons for one category
   Future<List<GrammarLesson>> getLessonsByCategory(
     String categoryId, {
     bool forceRefresh = false,
   }) async {
-    final allLessons = await getAllLessons(forceRefresh: forceRefresh);
-    return allLessons.where((l) => l.categoryId == categoryId).toList();
+    try {
+      // 1. Check in-memory cache first
+      if (!forceRefresh && _memoryLessons != null && !_isMemoryCacheExpired()) {
+        final filtered = _memoryLessons!.where((l) => l.categoryId == categoryId).toList();
+        if (filtered.isNotEmpty) {
+          print('✅ Loaded ${filtered.length} lessons for $categoryId from MEMORY cache');
+          return filtered;
+        }
+      }
+
+      // 2. Check disk cache
+      if (!forceRefresh) {
+        final cached = await _getCachedLessons();
+        if (cached != null && cached.isNotEmpty) {
+          final filtered = cached.where((l) => l.categoryId == categoryId).toList();
+          if (filtered.isNotEmpty) {
+            // Store in memory for next time
+            _memoryLessons ??= [];
+            for (final lesson in filtered) {
+              if (!_memoryLessons!.any((l) => l.id == lesson.id)) {
+                _memoryLessons!.add(lesson);
+              }
+            }
+            print('✅ Loaded ${filtered.length} lessons for $categoryId from disk cache');
+            return filtered;
+          }
+        }
+      }
+
+      // 3. Fetch from Firebase (ONLY for this category - LAZY LOAD!)
+      print('📡 Fetching lessons for category $categoryId from Firebase...');
+      final lessons = await _firebaseService.getLessonsByCategory(categoryId);
+      
+      if (lessons.isNotEmpty) {
+        // Update memory cache (add to existing lessons)
+        _memoryLessons ??= [];
+        for (final lesson in lessons) {
+          // Remove old version if exists
+          _memoryLessons!.removeWhere((l) => l.id == lesson.id);
+          _memoryLessons!.add(lesson);
+        }
+        _memoryCacheTime = DateTime.now();
+        
+        // Update disk cache (merge with existing)
+        await _mergeLessonsToCache(lessons);
+        
+        print('✅ Loaded ${lessons.length} lessons for $categoryId from Firebase');
+      }
+      
+      return lessons;
+    } catch (e) {
+      print('❌ Error loading lessons for $categoryId: $e');
+      
+      // Try memory cache as fallback
+      if (_memoryLessons != null) {
+        final filtered = _memoryLessons!.where((l) => l.categoryId == categoryId).toList();
+        if (filtered.isNotEmpty) {
+          print('⚠️  Using memory cache as fallback');
+          return filtered;
+        }
+      }
+      
+      // Try disk cache as fallback
+      final cached = await _getCachedLessons();
+      if (cached != null) {
+        final filtered = cached.where((l) => l.categoryId == categoryId).toList();
+        if (filtered.isNotEmpty) {
+          print('⚠️  Using disk cache as fallback');
+          return filtered;
+        }
+      }
+      
+      return [];
+    }
   }
 
   /// Get a specific lesson
@@ -223,6 +296,34 @@ class GrammarContentService {
     } catch (e) {
       print('❌ Error reading cached lessons: $e');
       return null;
+    }
+  }
+
+  /// Merge new lessons into cache (for lazy loading)
+  Future<void> _mergeLessonsToCache(List<GrammarLesson> newLessons) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      
+      // Get existing cached lessons
+      List<GrammarLesson> existingLessons = [];
+      final jsonString = prefs.getString(_lessonsCacheKey);
+      if (jsonString != null) {
+        final jsonList = json.decode(jsonString) as List;
+        existingLessons = jsonList.map((j) => GrammarLesson.fromJson(j)).toList();
+      }
+      
+      // Merge: remove old versions, add new ones
+      for (final newLesson in newLessons) {
+        existingLessons.removeWhere((l) => l.id == newLesson.id);
+        existingLessons.add(newLesson);
+      }
+      
+      // Save merged list
+      final jsonList = existingLessons.map((l) => l.toJson()).toList();
+      await prefs.setString(_lessonsCacheKey, json.encode(jsonList));
+      await prefs.setInt(_lastUpdateKey, DateTime.now().millisecondsSinceEpoch);
+    } catch (e) {
+      print('❌ Error merging lessons to cache: $e');
     }
   }
 

@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import '../../models/test_question.dart';
+import 'practice_review_screen.dart';
 
 class PracticeResultScreen extends StatelessWidget {
   final String practiceTitle;
   final Map<String, dynamic> result;
   final int timeSpent;
+  final List<TestQuestion> questions;
+  final List<int> userAnswers;
 
   const PracticeResultScreen({
     super.key,
     required this.practiceTitle,
     required this.result,
     required this.timeSpent,
+    required this.questions,
+    required this.userAnswers,
   });
 
   @override
@@ -164,6 +170,33 @@ class PracticeResultScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
+
+            // Review answers button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PracticeReviewScreen(
+                        questions: questions,
+                        userAnswers: userAnswers,
+                        practiceTitle: practiceTitle,
+                      ),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.visibility),
+                label: const Text('Xem lại đáp án'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
 
             // Action buttons in a row
             Row(

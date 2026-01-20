@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_question_service.dart';
 import 'lesson_progress_service.dart';
 import 'firebase_user_progress_service.dart';
+import 'practice_question_data.dart';
+import '../models/test_question.dart';
 
 class PracticeService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -10,10 +12,10 @@ class PracticeService {
 
   /// Get daily challenge questions (10 random)
   Future<List<dynamic>> getDailyChallengeQuestions() async {
-    // Get random questions from all categories
-    final allQuestions = await _questionService.getAllQuestions();
-    allQuestions.shuffle();
-    return allQuestions.take(10).toList();
+    print('📚 Loading daily challenge questions');
+    final result = await PracticeQuestionData.getRandom(10);
+    print('✅ Loaded ${result.length} daily challenge questions');
+    return result;
   }
 
   /// Get topic practice questions
@@ -22,10 +24,33 @@ class PracticeService {
     required String difficulty,
     required int count,
   }) async {
-    // Get questions by category
-    final questions = await _questionService.getByCategory(topicId);
-    questions.shuffle();
-    return questions.take(count).toList();
+    print('📚 Loading practice questions for topic: $topicId, difficulty: $difficulty, count: $count');
+    
+    // Map difficulty to level
+    String level;
+    switch (difficulty) {
+      case 'easy':
+        level = 'beginner';
+        break;
+      case 'medium':
+        level = 'intermediate';
+        break;
+      case 'hard':
+        level = 'advanced';
+        break;
+      default:
+        level = 'intermediate';
+    }
+    
+    // Fetch from Firebase with cache
+    final questions = await PracticeQuestionData.getRandomByCategoryAndLevel(
+      topicId,
+      level,
+      count,
+    );
+    
+    print('✅ Loaded ${questions.length} questions');
+    return questions;
   }
 
   /// Get mixed review questions from learned topics
@@ -83,7 +108,7 @@ class PracticeService {
   /// Calculate practice score
   Map<String, dynamic> calculateScore({
     required List<dynamic> questions,
-    required List<int?> userAnswers,
+    required List<dynamic> userAnswers,  // Changed from List<int?>
   }) {
     int correct = 0;
     List<Map<String, dynamic>> answerDetails = [];
@@ -91,9 +116,32 @@ class PracticeService {
     for (int i = 0; i < questions.length; i++) {
       final question = questions[i];
       final userAnswer = userAnswers[i];
-      // Firebase questions use 'correctAnswer' field
-      final correctAnswer = question.correctAnswer ?? 0;
-      final isCorrect = userAnswer == correctAnswer;
+      
+      bool isCorrect = false;
+      dynamic correctAnswer;
+
+      // Check answer based on question type
+      if (question.type == QuestionType.multipleChoice) {
+        correctAnswer = question.correctAnswer ?? 0;
+        isCorrect = userAnswer == correctAnswer;
+      } else if (question.type == QuestionType.fillInBlank) {
+        correctAnswer = question.correctAnswerText ?? '';
+        final userText = (userAnswer as String?)?.toLowerCase().trim() ?? '';
+        final correctText = correctAnswer.toLowerCase().trim();
+        isCorrect = userText == correctText;
+      } else if (question.type == QuestionType.errorCorrection) {
+        if (userAnswer is Map) {
+          final userPosition = userAnswer['position'];
+          final userCorrection = (userAnswer['correction'] as String?)?.toLowerCase().trim() ?? '';
+          final correctPosition = question.errorPosition;
+          final correctWord = (question.correctedWord ?? '').toLowerCase().trim();
+          isCorrect = userPosition == correctPosition && userCorrection == correctWord;
+          correctAnswer = {'position': correctPosition, 'word': question.correctedWord};
+        } else {
+          isCorrect = false;
+          correctAnswer = {'position': question.errorPosition, 'word': question.correctedWord};
+        }
+      }
 
       if (isCorrect) correct++;
 

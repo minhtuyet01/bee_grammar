@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'unit_test_category_selection_screen.dart';
 
 class TestsHubScreen extends StatelessWidget {
   const TestsHubScreen({super.key});
@@ -40,10 +41,13 @@ class TestsHubScreen extends StatelessWidget {
               description: 'Kiểm tra kiến thức của các đơn vị cụ thể',
               icon: Icons.assignment,
               color: Colors.blue,
-              count: 12,
+              count: 5,
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Unit Tests - Coming soon')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UnitTestCategorySelectionScreen(),
+                  ),
                 );
               },
             ),

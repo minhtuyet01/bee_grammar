@@ -74,7 +74,7 @@ class _TestCategorySelectionScreenState extends State<TestCategorySelectionScree
                       category['title'] as String,
                       style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    subtitle: Text('$questionCount câu hỏi • 15 phút'),
+                    subtitle: const Text('15 câu • 20 phút'),
                     trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                     onTap: () async {
                       if (questionCount == 0) {
@@ -109,7 +109,7 @@ class _TestCategorySelectionScreenState extends State<TestCategorySelectionScree
                           testType: 'unit',
                           title: category['title'] as String,
                           questions: questions,
-                          timeLimit: 900, // 15 minutes
+                          timeLimit: 1200, // 20 minutes
                         ),
                         type: TransitionType.slideUp,
                       );

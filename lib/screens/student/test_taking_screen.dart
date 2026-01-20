@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../data/test_service.dart';
-import '../../data/mock_test_data.dart';
+import '../../models/test_question.dart';
 import 'test_result_screen.dart';
 import '../../utils/page_transitions.dart';
 
@@ -115,6 +115,78 @@ class _TestTakingScreenState extends State<TestTakingScreen> {
 
   Future<void> _submitTest() async {
     _timer?.cancel();
+
+    // Check for unanswered questions
+    final unansweredIndices = <int>[];
+    for (int i = 0; i < _questions.length; i++) {
+      final question = _questions[i];
+      if (question.type == QuestionType.multipleChoice) {
+        if (_userAnswers[i] == null) {
+          unansweredIndices.add(i);
+        }
+      } else if (question.type == QuestionType.fillInBlank) {
+        if (_userTextAnswers[i] == null || _userTextAnswers[i]!.trim().isEmpty) {
+          unansweredIndices.add(i);
+        }
+      }
+    }
+
+    // Show warning if there are unanswered questions
+    if (unansweredIndices.isNotEmpty) {
+      final shouldContinue = await showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          title: const Text('⚠️ Còn câu chưa làm'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Bạn còn ${unansweredIndices.length} câu chưa trả lời:',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                constraints: const BoxConstraints(maxHeight: 200),
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: unansweredIndices.map((index) {
+                      return Chip(
+                        label: Text('Câu ${index + 1}'),
+                        backgroundColor: Colors.orange.shade100,
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              const Text('Bạn có muốn tiếp tục nộp bài không?'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Quay lại làm tiếp'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+              ),
+              child: const Text('Nộp bài luôn'),
+            ),
+          ],
+        ),
+      );
+
+      if (shouldContinue != true) {
+        _startTimer();
+        return;
+      }
+    }
 
     // Show confirmation dialog
     final confirmed = await showDialog<bool>(

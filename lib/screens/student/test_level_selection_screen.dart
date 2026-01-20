@@ -45,11 +45,10 @@ class _TestLevelSelectionScreenState extends State<TestLevelSelectionScreen> {
   }
 
   Future<void> _loadQuestionCounts() async {
-    for (final level in levels) {
-      final levelId = level['id'] as String;
-      final count = await _testService.getQuestionCountByLevel(levelId);
-      _questionCounts[levelId] = count;
-    }
+    // Use fixed counts from local question bank
+    _questionCounts['beginner'] = 30;
+    _questionCounts['intermediate'] = 40;
+    _questionCounts['advanced'] = 50;
     setState(() => _loading = false);
   }
 
@@ -104,16 +103,16 @@ class _TestLevelSelectionScreenState extends State<TestLevelSelectionScreen> {
                       int timeLimit;
                       switch (levelId) {
                         case 'beginner':
-                          timeLimit = 1800; // 30 minutes
+                          timeLimit = 2100; // 35 minutes
                           break;
                         case 'intermediate':
-                          timeLimit = 2400; // 40 minutes
-                          break;
-                        case 'advanced':
                           timeLimit = 3000; // 50 minutes
                           break;
+                        case 'advanced':
+                          timeLimit = 4200; // 70 minutes
+                          break;
                         default:
-                          timeLimit = 1800; // Default 30 minutes
+                          timeLimit = 2100; // Default 35 minutes
                       }
                       
                       Navigator.push(
@@ -206,13 +205,13 @@ class _TestLevelSelectionScreenState extends State<TestLevelSelectionScreen> {
   String _getTimeText(String levelId) {
     switch (levelId) {
       case 'beginner':
-        return '30 phút';
+        return '35 phút';
       case 'intermediate':
-        return '40 phút';
-      case 'advanced':
         return '50 phút';
+      case 'advanced':
+        return '70 phút';
       default:
-        return '30 phút';
+        return '35 phút';
     }
   }
 }
