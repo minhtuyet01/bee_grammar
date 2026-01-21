@@ -1,0 +1,11 @@
+{
+  "name": "firebase-scripts",
+  "version": "1.0.0",
+  "description": "Scripts to manage Firebase data",
+  "scripts": {
+    "upload-categories": "node upload_categories.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}

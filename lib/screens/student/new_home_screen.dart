@@ -43,7 +43,7 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
       });
 
       // Load grammar categories from FIREBASE (with caching)
-      final categories = await _contentService.getCategories();
+      final categories = await _contentService.getCategories(forceRefresh: true);
       setState(() {
         _categories = categories;
         _isLoading = false;
@@ -102,7 +102,23 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                   color: category.color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(category.icon, color: category.color, size: 32),
+                child: category.iconPath != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.asset(
+                          // Automatically switch between light_mode and dark_mode icons
+                          category.iconPath!.replaceAll(
+                            'light_mode',
+                            Theme.of(context).brightness == Brightness.dark
+                                ? 'dark_mode'
+                                : 'light_mode',
+                          ),
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : Icon(category.icon, color: category.color, size: 32),
               ),
               const SizedBox(width: 16),
 

@@ -73,7 +73,6 @@ class _TopicSelectionScreenState extends State<TopicSelectionScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chọn chủ đề'),
-        backgroundColor: const Color(0xFFD4A574),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),

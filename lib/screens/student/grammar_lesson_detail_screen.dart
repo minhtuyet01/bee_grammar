@@ -80,8 +80,13 @@ import 'dart:async';
 
 class GrammarLessonDetailScreen extends StatefulWidget {
   final GrammarLesson lesson;
+  final String? categoryTitle; // Add category title for learning history
 
-  const GrammarLessonDetailScreen({super.key, required this.lesson});
+  const GrammarLessonDetailScreen({
+    super.key, 
+    required this.lesson,
+    this.categoryTitle,
+  });
 
   @override
   State<GrammarLessonDetailScreen> createState() => _GrammarLessonDetailScreenState();
@@ -697,6 +702,7 @@ class _GrammarLessonDetailScreenState extends State<GrammarLessonDetailScreen> w
     return _ExerciseQuizWidget(
       exercises: widget.lesson.exercises,
       lesson: widget.lesson,
+      categoryTitle: widget.categoryTitle,
     );
   }
 
@@ -914,10 +920,12 @@ class _GrammarLessonDetailScreenState extends State<GrammarLessonDetailScreen> w
 class _ExerciseQuizWidget extends StatefulWidget {
   final List<GrammarExerciseItem> exercises;
   final GrammarLesson lesson;
+  final String? categoryTitle;
 
   const _ExerciseQuizWidget({
     required this.exercises,
     required this.lesson,
+    this.categoryTitle,
   });
 
   @override
@@ -1233,8 +1241,8 @@ class _ExerciseQuizWidgetState extends State<_ExerciseQuizWidget> {
     final isCorrect = _checkedAnswers[_currentIndex]!;
     return Card(
       color: isCorrect
-          ? Colors.green.withOpacity(0.1)
-          : Colors.red.withOpacity(0.1),
+          ? const Color(0xFFC8E6C9)
+          : const Color(0xFFFFCDD2),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -1244,7 +1252,7 @@ class _ExerciseQuizWidgetState extends State<_ExerciseQuizWidget> {
               children: [
                 Icon(
                   isCorrect ? Icons.check_circle : Icons.cancel,
-                  color: isCorrect ? Colors.green : Colors.red,
+                  color: isCorrect ? const Color(0xFF2E7D32) : const Color(0xFFB71C1C),
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -1252,7 +1260,7 @@ class _ExerciseQuizWidgetState extends State<_ExerciseQuizWidget> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: isCorrect ? Colors.green : Colors.red,
+                    color: isCorrect ? const Color(0xFF2E7D32) : const Color(0xFFB71C1C),
                   ),
                 ),
               ],
@@ -1264,6 +1272,7 @@ class _ExerciseQuizWidgetState extends State<_ExerciseQuizWidget> {
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
+                  color: Color(0xFFB71C1C),
                 ),
               ),
             ],
@@ -1271,18 +1280,18 @@ class _ExerciseQuizWidgetState extends State<_ExerciseQuizWidget> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
+                color: isCorrect ? const Color(0xFFF1F8E9) : const Color(0xFFFCE4EC),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.lightbulb_outline, size: 20, color: Colors.blue),
+                  Icon(Icons.lightbulb_outline, size: 20, color: isCorrect ? const Color(0xFF2E7D32) : const Color(0xFFB71C1C)),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       _currentExercise.explanation ?? '',
-                      style: const TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: 14, color: isCorrect ? const Color(0xFF2E7D32) : const Color(0xFFB71C1C)),
                     ),
                   ),
                 ],
@@ -1311,6 +1320,7 @@ class _ExerciseQuizWidgetState extends State<_ExerciseQuizWidget> {
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16),
           backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
         ),
         child: Text(
           _isLastExercise ? 'Hoàn thành' : 'Tiếp theo',
@@ -1361,7 +1371,7 @@ class _ExerciseQuizWidgetState extends State<_ExerciseQuizWidget> {
           lessonId: widget.lesson.id,
           lessonTitle: widget.lesson.title,
           categoryId: widget.lesson.categoryId ?? '',
-          categoryTitle: '', // Will be populated from categoryId in service
+          categoryTitle: widget.categoryTitle ?? widget.lesson.categoryId ?? 'Khác',
           score: percentage,
           correctAnswers: correctCount,
           totalQuestions: totalCount,
@@ -1416,7 +1426,10 @@ class _ExerciseQuizWidgetState extends State<_ExerciseQuizWidget> {
             child: const Text('Làm lại'),
           ),
           ElevatedButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context); // Close dialog
+              Navigator.pop(context); // Go back to previous screen
+            },
             child: const Text('Xong'),
           ),
         ],

@@ -52,7 +52,7 @@ class _RandomTestStartScreenState extends State<RandomTestStartScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Đề ngẫu nhiên'),
-        backgroundColor: Colors.purple,
+        foregroundColor: Colors.orange,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -65,13 +65,13 @@ class _RandomTestStartScreenState extends State<RandomTestStartScreen> {
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                  color: Colors.purple[50],
+                  color: Colors.orange[50],
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.shuffle,
                   size: 60,
-                  color: Colors.purple[700],
+                  color: Colors.orange[700],
                 ),
               ),
               const SizedBox(height: 32),
@@ -120,8 +120,10 @@ class _RandomTestStartScreenState extends State<RandomTestStartScreen> {
               ),
               const SizedBox(height: 32),
 
-              // Challenge Mode Toggle
-              Container(
+              // Challenge Mode Toggle with Animation
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: _isChallengeMode ? Colors.orange[50] : Colors.blue[50],
@@ -226,7 +228,8 @@ class _RandomTestStartScreenState extends State<RandomTestStartScreen> {
                 child: ElevatedButton(
                   onPressed: () => _startTest(context),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: _isChallengeMode ? Colors.orange : Colors.purple,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -268,7 +271,7 @@ class _RandomTestStartScreenState extends State<RandomTestStartScreen> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(icon, color: Colors.purple[700]),
+          child: Icon(icon, color: Colors.orange[700]),
         ),
         const SizedBox(width: 16),
         Expanded(

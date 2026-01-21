@@ -218,7 +218,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                         style: const TextStyle(fontSize: 14),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFD4A574),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),

@@ -3,16 +3,69 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class LearningHistoryService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// Get category title from category ID
-  String _getCategoryTitle(String categoryId) {
-    const categoryTitles = {
-      'cat_1': '12 Thì Cơ Bản',
-      'cat_2': 'Câu Điều Kiện',
-      'cat_3': 'Câu Bị Động',
-      'cat_4': 'Mệnh Đề Quan Hệ',
-      'cat_5': 'Câu Gián Tiếp',
-    };
-    return categoryTitles[categoryId] ?? 'Khác';
+  /// Get all unique categories from user's learning history
+  Future<List<Map<String, String>>> getUserCategories(String userId) async {
+    try {
+      // Query all collections
+      final lessons = await _firestore
+          .collection('learning_history')
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      final practice = await _firestore
+          .collection('practice_sessions')
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      final tests = await _firestore
+          .collection('test_results')
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      // Extract unique categories from all sources
+      final Map<String, String> categoriesMap = {};
+      
+      // From lessons
+      for (final doc in lessons.docs) {
+        final data = doc.data();
+        final categoryId = data['categoryId'] as String?;
+        final categoryTitle = data['categoryTitle'] as String?;
+        
+        if (categoryId != null && categoryTitle != null) {
+          categoriesMap[categoryId] = categoryTitle;
+        }
+      }
+
+      // From practice sessions
+      for (final doc in practice.docs) {
+        final data = doc.data();
+        final categoryId = data['categoryId'] as String?;
+        final categoryTitle = data['categoryTitle'] as String?;
+        
+        if (categoryId != null && categoryTitle != null) {
+          categoriesMap[categoryId] = categoryTitle;
+        }
+      }
+
+      // From tests
+      for (final doc in tests.docs) {
+        final data = doc.data();
+        final categoryId = data['categoryId'] as String?;
+        final categoryTitle = data['categoryTitle'] as String?;
+        
+        if (categoryId != null && categoryTitle != null) {
+          categoriesMap[categoryId] = categoryTitle;
+        }
+      }
+
+      // Convert to list
+      return categoriesMap.entries
+          .map((e) => {'id': e.key, 'title': e.value})
+          .toList();
+    } catch (e) {
+      print('Error getting user categories: $e');
+      return [];
+    }
   }
 
   /// Save lesson completion to learning history
@@ -30,18 +83,13 @@ class LearningHistoryService {
     try {
       final timestamp = DateTime.now();
       final docId = '${userId}_${lessonId}_${timestamp.millisecondsSinceEpoch}';
-      
-      // Auto-populate category title if empty
-      final finalCategoryTitle = categoryTitle.isEmpty 
-          ? _getCategoryTitle(categoryId) 
-          : categoryTitle;
 
       await _firestore.collection('learning_history').doc(docId).set({
         'userId': userId,
         'lessonId': lessonId,
         'lessonTitle': lessonTitle,
         'categoryId': categoryId,
-        'categoryTitle': finalCategoryTitle,
+        'categoryTitle': categoryTitle,
         'completedAt': timestamp,
         'score': score,
         'correctAnswers': correctAnswers,
@@ -97,24 +145,149 @@ class LearningHistoryService {
     required String userId,
     String? categoryId,
     int limit = 50,
-  }) {
-    Query query = _firestore
+  }) async* {
+    // Stream from learning_history (lessons)
+    final lessonsStream = _firestore
         .collection('learning_history')
         .where('userId', isEqualTo: userId)
         .orderBy('completedAt', descending: true)
-        .limit(limit);
+        .limit(limit)
+        .snapshots();
 
-    if (categoryId != null) {
-      query = query.where('categoryId', isEqualTo: categoryId);
-    }
+    // Stream from practice_sessions
+    final practiceStream = _firestore
+        .collection('practice_sessions')
+        .where('userId', isEqualTo: userId)
+        .orderBy('completedAt', descending: true)
+        .limit(limit)
+        .snapshots();
 
-    return query.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
+    // Stream from test_results (unit/level tests)
+    final testStream = _firestore
+        .collection('test_results')
+        .where('userId', isEqualTo: userId)
+        .orderBy('completedAt', descending: true)
+        .limit(limit)
+        .snapshots();
+
+    // Stream from mock_exam_results
+    final mockExamStream = _firestore
+        .collection('mock_exam_results')
+        .where('userId', isEqualTo: userId)
+        .orderBy('completedAt', descending: true)
+        .limit(limit)
+        .snapshots();
+
+    // Stream from random_test_results
+    final randomTestStream = _firestore
+        .collection('random_test_results')
+        .where('userId', isEqualTo: userId)
+        .orderBy('completedAt', descending: true)
+        .limit(limit)
+        .snapshots();
+
+    // Combine all streams
+    await for (final _ in lessonsStream) {
+      final lessons = await _firestore
+          .collection('learning_history')
+          .where('userId', isEqualTo: userId)
+          .orderBy('completedAt', descending: true)
+          .limit(limit)
+          .get();
+
+      final practice = await _firestore
+          .collection('practice_sessions')
+          .where('userId', isEqualTo: userId)
+          .orderBy('completedAt', descending: true)
+          .limit(limit)
+          .get();
+
+      final tests = await _firestore
+          .collection('test_results')
+          .where('userId', isEqualTo: userId)
+          .orderBy('completedAt', descending: true)
+          .limit(limit)
+          .get();
+
+      final mockExams = await _firestore
+          .collection('mock_exam_results')
+          .where('userId', isEqualTo: userId)
+          .orderBy('completedAt', descending: true)
+          .limit(limit)
+          .get();
+
+      final randomTests = await _firestore
+          .collection('random_test_results')
+          .where('userId', isEqualTo: userId)
+          .orderBy('completedAt', descending: true)
+          .limit(limit)
+          .get();
+
+      // Merge all results
+      final List<Map<String, dynamic>> allHistory = [];
+
+      // Add lessons
+      for (final doc in lessons.docs) {
+        final data = doc.data();
         data['id'] = doc.id;
-        return data;
-      }).toList();
-    });
+        data['type'] = 'lesson';
+        allHistory.add(data);
+      }
+
+      // Add practice sessions
+      for (final doc in practice.docs) {
+        final data = doc.data();
+        data['id'] = doc.id;
+        data['type'] = 'practice';
+        allHistory.add(data);
+      }
+
+      // Add tests
+      for (final doc in tests.docs) {
+        final data = doc.data();
+        data['id'] = doc.id;
+        data['type'] = 'test';
+        allHistory.add(data);
+      }
+
+      // Add mock exams
+      for (final doc in mockExams.docs) {
+        final data = doc.data();
+        data['id'] = doc.id;
+        data['type'] = 'mock_exam';
+        allHistory.add(data);
+      }
+
+      // Add random tests
+      for (final doc in randomTests.docs) {
+        final data = doc.data();
+        data['id'] = doc.id;
+        data['type'] = 'random_test';
+        allHistory.add(data);
+      }
+
+      // Sort by completedAt
+      allHistory.sort((a, b) {
+        final aTime = (a['completedAt'] as Timestamp?)?.toDate() ?? DateTime(1970);
+        final bTime = (b['completedAt'] as Timestamp?)?.toDate() ?? DateTime(1970);
+        return bTime.compareTo(aTime);
+      });
+
+      // Apply category filter if needed
+      var filteredHistory = allHistory;
+      if (categoryId != null) {
+        filteredHistory = allHistory.where((item) {
+          return item['categoryId'] == categoryId;
+        }).toList();
+      }
+
+      // Limit results
+      if (filteredHistory.length > limit) {
+        filteredHistory = filteredHistory.sublist(0, limit);
+      }
+
+      yield filteredHistory;
+    }
   }
 
   /// Update user statistics

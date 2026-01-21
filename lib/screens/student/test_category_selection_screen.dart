@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'test_taking_screen.dart';
 import '../../data/test_service.dart';
+import '../../data/service_locator.dart';
 import '../../utils/page_transitions.dart';
 
 class TestCategorySelectionScreen extends StatefulWidget {
@@ -13,29 +14,67 @@ class TestCategorySelectionScreen extends StatefulWidget {
 class _TestCategorySelectionScreenState extends State<TestCategorySelectionScreen> {
   final _testService = TestService();
   final Map<String, int> _questionCounts = {};
+  List<Map<String, dynamic>> _categories = [];
   bool _loading = true;
-
-  final categories = [
-    {'id': 'cat_1', 'title': '12 Thì Cơ Bản', 'icon': Icons.access_time, 'color': Colors.blue},
-    {'id': 'cat_2', 'title': 'Câu Điều Kiện', 'icon': Icons.question_mark, 'color': Colors.green},
-    {'id': 'cat_3', 'title': 'Câu Bị Động', 'icon': Icons.swap_horiz, 'color': Colors.orange},
-    {'id': 'cat_4', 'title': 'Mệnh Đề Quan Hệ', 'icon': Icons.link, 'color': Colors.purple},
-    {'id': 'cat_5', 'title': 'Câu Gián Tiếp', 'icon': Icons.chat_bubble_outline, 'color': Colors.red},
-  ];
 
   @override
   void initState() {
     super.initState();
-    _loadQuestionCounts();
+    _loadData();
   }
 
-  Future<void> _loadQuestionCounts() async {
-    for (final category in categories) {
-      final categoryId = category['id'] as String;
-      final count = await _testService.getQuestionCountByCategory(categoryId);
-      _questionCounts[categoryId] = count;
+  Future<void> _loadData() async {
+    try {
+      // Load categories from Firebase
+      final grammarService = ServiceLocator().firebaseGrammarService;
+      final categories = await grammarService.getAllCategories();
+      
+      setState(() {
+        _categories = categories;
+      });
+
+      // Load question counts for each category
+      for (final category in _categories) {
+        final categoryId = category['id'] as String;
+        final count = await _testService.getQuestionCountByCategory(categoryId);
+        _questionCounts[categoryId] = count;
+      }
+      
+      setState(() => _loading = false);
+    } catch (e) {
+      print('Error loading data: $e');
+      setState(() => _loading = false);
     }
-    setState(() => _loading = false);
+  }
+
+  // Get default icon for category (fallback if not in Firebase)
+  IconData _getCategoryIcon(int index) {
+    final icons = [
+      Icons.access_time,
+      Icons.question_mark,
+      Icons.swap_horiz,
+      Icons.link,
+      Icons.chat_bubble_outline,
+      Icons.book,
+      Icons.school,
+      Icons.edit,
+    ];
+    return icons[index % icons.length];
+  }
+
+  // Get default color for category (fallback if not in Firebase)
+  Color _getCategoryColor(int index) {
+    final colors = [
+      Colors.blue,
+      Colors.green,
+      Colors.orange,
+      Colors.purple,
+      Colors.red,
+      Colors.teal,
+      Colors.pink,
+      Colors.indigo,
+    ];
+    return colors[index % colors.length];
   }
 
   @override
@@ -43,15 +82,14 @@ class _TestCategorySelectionScreenState extends State<TestCategorySelectionScree
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chọn chủ đề'),
-        backgroundColor: const Color(0xFFD4A574),
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               padding: const EdgeInsets.all(16),
-              itemCount: categories.length,
+              itemCount: _categories.length,
               itemBuilder: (context, index) {
-                final category = categories[index];
+                final category = _categories[index];
                 final categoryId = category['id'] as String;
                 final questionCount = _questionCounts[categoryId] ?? 0;
                 
@@ -62,12 +100,12 @@ class _TestCategorySelectionScreenState extends State<TestCategorySelectionScree
                       width: 48,
                       height: 48,
                       decoration: BoxDecoration(
-                        color: (category['color'] as Color).withOpacity(0.1),
+                        color: _getCategoryColor(index).withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(
-                        category['icon'] as IconData,
-                        color: category['color'] as Color,
+                        _getCategoryIcon(index),
+                        color: _getCategoryColor(index),
                       ),
                     ),
                     title: Text(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../data/test_service.dart';
+import '../../models/test_question.dart';
+import 'test_review_screen.dart';
 
 class TestResultScreen extends StatefulWidget {
   final String testTitle;
@@ -8,6 +10,9 @@ class TestResultScreen extends StatefulWidget {
   final String? mockExamId;
   final Map<String, dynamic> result;
   final int timeSpent;
+  final List<TestQuestion>? questions;
+  final List<int?>? userAnswers;
+  final List<String?>? userTextAnswers;
 
   const TestResultScreen({
     super.key,
@@ -16,6 +21,9 @@ class TestResultScreen extends StatefulWidget {
     this.mockExamId,
     required this.result,
     required this.timeSpent,
+    this.questions,
+    this.userAnswers,
+    this.userTextAnswers,
   });
 
   @override
@@ -61,15 +69,14 @@ class _TestResultScreenState extends State<TestResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final totalQuestions = widget.result['totalQuestions'] as int;
-    final correctAnswers = widget.result['correctAnswers'] as int;
-    final score = widget.result['score'] as int;
-    final passed = widget.result['passed'] as bool;
+    final totalQuestions = widget.result['total'] as int;
+    final correctAnswers = widget.result['correct'] as int;
+    final score = widget.result['percentage'] as int;
+    final passed = score >= 70; // Pass if score >= 70%
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Kết quả'),
-        backgroundColor: const Color(0xFFD4A574),
         automaticallyImplyLeading: false,
       ),
       body: _loading
@@ -204,7 +211,7 @@ class _TestResultScreenState extends State<TestResultScreen> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Điểm: $score%',
+                            'Điểm: ${(score / 10).toStringAsFixed(1)}/10',
                             style: TextStyle(
                               fontSize: 20,
                               color: Colors.grey[700],
@@ -214,7 +221,7 @@ class _TestResultScreenState extends State<TestResultScreen> {
                           if (_bestScore != null && widget.testType == 'mock') ...[
                             const SizedBox(height: 12),
                             Text(
-                              'Điểm cao nhất: $_bestScore%',
+                              'Điểm cao nhất: ${(_bestScore! / 10).toStringAsFixed(1)}/10',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[600],
@@ -263,6 +270,36 @@ class _TestResultScreenState extends State<TestResultScreen> {
                   ),
                   const SizedBox(height: 24),
 
+                // Review answers button (only show if questions are available)
+                if (widget.questions != null && widget.userAnswers != null && widget.userTextAnswers != null) ...[
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TestReviewScreen(
+                              questions: widget.questions!,
+                              userAnswers: widget.userAnswers!,
+                              userTextAnswers: widget.userTextAnswers!,
+                              testTitle: widget.testTitle,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.visibility),
+                      label: const Text('Xem lại đáp án'),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                ],
+
                 // Action buttons in a row
                 Row(
                   children: [
@@ -277,6 +314,9 @@ class _TestResultScreenState extends State<TestResultScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           side: const BorderSide(color: Color(0xFFD4A574)),
                           foregroundColor: const Color(0xFFD4A574),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                       ),
                     ),
@@ -289,8 +329,9 @@ class _TestResultScreenState extends State<TestResultScreen> {
                         icon: const Icon(Icons.refresh),
                         label: const Text('Quay lại'),
                         style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.primary,
+                          foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          backgroundColor: const Color(0xFFD4A574),
                         ),
                       ),
                     ),

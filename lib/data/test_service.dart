@@ -211,10 +211,26 @@ class TestService {
       final timestamp = DateTime.now();
       final docId = '${testType}_${timestamp.millisecondsSinceEpoch}';
 
-      await _firestore.collection('tests').doc(docId).set({
+      // Determine title and category for display
+      String testTitle;
+      String? categoryTitle;
+      
+      if (testType == 'unit' && category != null) {
+        testTitle = 'Kiểm tra: $category';
+        categoryTitle = category;
+      } else if (testType == 'level' && level != null) {
+        testTitle = 'Kiểm tra trình độ: $level';
+        categoryTitle = level;
+      } else {
+        testTitle = 'Kiểm tra';
+      }
+
+      await _firestore.collection('test_results').doc(docId).set({
         'userId': userId,
         'testType': testType,
+        'testTitle': testTitle,
         'category': category,
+        'categoryTitle': categoryTitle,
         'level': level,
         'totalQuestions': totalQuestions,
         'correctAnswers': correctAnswers,
@@ -334,6 +350,7 @@ class TestService {
       await _firestore.collection('mock_exam_results').doc(docId).set({
         'userId': userId,
         'mockExamId': mockExamId,
+        'testTitle': 'Đề thi thử $mockExamId',
         'attemptNumber': attemptNumber,
         'totalQuestions': totalQuestions,
         'correctAnswers': correctAnswers,
@@ -396,6 +413,7 @@ class TestService {
 
       await _firestore.collection('random_test_results').doc(docId).set({
         'userId': userId,
+        'testTitle': 'Đề ngẫu nhiên',
         'totalQuestions': totalQuestions,
         'correctAnswers': correctAnswers,
         'score': score,

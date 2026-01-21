@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'firebase_options.dart';
 import 'data/service_locator.dart';
 import 'providers/theme_provider.dart';
 import 'providers/locale_provider.dart';
+import 'providers/connectivity_provider.dart';
+import 'data/grammar_content_service.dart';
+import 'services/connectivity_service.dart';
+import 'services/local_cache_service.dart';
 import 'screens/splash_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/email_verification_screen.dart';
@@ -14,6 +20,10 @@ import 'screens/reset_password_screen.dart';
 import 'screens/student/main_navigation_screen.dart';
 import 'services/deep_link_service.dart';
 import 'l10n/app_localizations.dart';
+
+// Global instances for offline support
+final connectivityService = ConnectivityService();
+final localCacheService = LocalCacheService();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +33,19 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   
+  // Enable Firestore offline persistence
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+  );
+  print('✅ Firestore offline persistence enabled');
+  
+  // Initialize local cache service
+  await localCacheService.initialize();
+  
+  // Initialize connectivity service
+  await connectivityService.initialize();
+  
   // Initialize all services with mock data
   await ServiceLocator().initialize();
   
@@ -31,6 +54,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider(create: (_) => ConnectivityProvider(connectivityService)),
       ],
       child: const BeeGrammarApp(),
     ),
@@ -109,6 +133,7 @@ class _BeeGrammarAppState extends State<BeeGrammarApp> {
             appBarTheme: const AppBarTheme(
               centerTitle: true,
               elevation: 0,
+              scrolledUnderElevation: 2,
             ),
             cardTheme: CardThemeData(
               elevation: 2,
@@ -140,6 +165,7 @@ class _BeeGrammarAppState extends State<BeeGrammarApp> {
               centerTitle: true,
               elevation: 0,
               backgroundColor: Color(0xFF2C2C2C),
+              scrolledUnderElevation: 2,
             ),
             cardTheme: CardThemeData(
               elevation: 2,

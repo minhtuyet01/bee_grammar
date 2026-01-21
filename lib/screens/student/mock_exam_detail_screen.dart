@@ -72,8 +72,7 @@ class _MockExamDetailScreenState extends State<MockExamDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.exam.title),
-        backgroundColor: const Color(0xFFD4A574),
-      ),
+        ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -147,7 +146,6 @@ class _MockExamDetailScreenState extends State<MockExamDetailScreen> {
                               style: const TextStyle(fontSize: 16),
                             ),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFD4A574),
                               padding: const EdgeInsets.symmetric(vertical: 16),
                             ),
                           ),

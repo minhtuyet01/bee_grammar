@@ -26,7 +26,13 @@ class _GrammarCategoriesScreenState extends State<GrammarCategoriesScreen> {
   Future<void> _loadCategories() async {
     try {
       // Load from Firebase with caching
-      final categories = await _contentService.getCategories();
+      final categories = await _contentService.getCategories(forceRefresh: true);
+      
+      // DEBUG: Check if categories have iconPath
+      for (final cat in categories) {
+        print('📦 Category ${cat.id}: iconPath = ${cat.iconPath}');
+      }
+      
       setState(() {
         _categories = categories;
         _isLoading = false;
@@ -45,7 +51,6 @@ class _GrammarCategoriesScreenState extends State<GrammarCategoriesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFD4A574),
       ),
       body: _isLoading
           ? const CategoryListSkeleton(itemCount: 5)
@@ -88,7 +93,23 @@ class _GrammarCategoriesScreenState extends State<GrammarCategoriesScreen> {
                   color: category.color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(category.icon, color: category.color, size: 32),
+                child: category.iconPath != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.asset(
+                          // Automatically switch between light_mode and dark_mode icons
+                          category.iconPath!.replaceAll(
+                            'light_mode',
+                            Theme.of(context).brightness == Brightness.dark
+                                ? 'dark_mode'
+                                : 'light_mode',
+                          ),
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : Icon(category.icon, color: category.color, size: 32),
               ),
               const SizedBox(width: 16),
 

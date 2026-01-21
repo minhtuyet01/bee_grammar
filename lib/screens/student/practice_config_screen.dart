@@ -119,8 +119,7 @@ class _PracticeConfigScreenState extends State<PracticeConfigScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Luyện tập: ${widget.topicTitle}'),
-        backgroundColor: const Color(0xFFD4A574),
-      ),
+        ),
       body: Column(
         children: [
           Expanded(
@@ -167,7 +166,7 @@ class _PracticeConfigScreenState extends State<PracticeConfigScreen> {
                 child: ElevatedButton(
                   onPressed: _canStart() ? _startPractice : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFD4A574),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Colors.white,
                     disabledBackgroundColor: Colors.grey[300],
                     shape: RoundedRectangleBorder(

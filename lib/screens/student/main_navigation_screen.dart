@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../data/service_locator.dart';
+import '../../widgets/offline_indicator.dart';
 import 'new_home_screen.dart';
 import 'practice_screen.dart';
 import 'test_screen.dart';
@@ -102,14 +103,21 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             ),
         ],
       ),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        children: _screens,
+      body: Column(
+        children: [
+          const OfflineIndicator(),
+          Expanded(
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+              children: _screens,
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

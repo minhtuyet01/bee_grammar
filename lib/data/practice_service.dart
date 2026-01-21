@@ -169,6 +169,7 @@ class PracticeService {
   Future<void> savePracticeSession({
     required String userId,
     required String practiceType,
+    required String practiceTitle,
     String? topicId,
     String? difficulty,
     required int totalQuestions,
@@ -184,6 +185,7 @@ class PracticeService {
       await _firestore.collection('practice_sessions').doc(docId).set({
         'userId': userId,
         'practiceType': practiceType,
+        'practiceTitle': practiceTitle,
         'topicId': topicId,
         'difficulty': difficulty,
         'totalQuestions': totalQuestions,

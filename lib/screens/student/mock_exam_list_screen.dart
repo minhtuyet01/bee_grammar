@@ -58,7 +58,8 @@ class _MockExamListScreenState extends State<MockExamListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Đề thi thử'),
-        backgroundColor: const Color(0xFFD4A574),
+        foregroundColor: Colors.purple,
+        surfaceTintColor: Colors.purple.withOpacity(0.1),
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())

@@ -58,7 +58,6 @@ class _GrammarHomeScreenState extends State<GrammarHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFD4A574),
         automaticallyImplyLeading: false,
       ),
       body: _isLoading

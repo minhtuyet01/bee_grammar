@@ -25,8 +25,7 @@ class QuestionCountSelectionScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Số câu hỏi'),
-        backgroundColor: const Color(0xFFD4A574),
-      ),
+        ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

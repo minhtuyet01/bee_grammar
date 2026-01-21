@@ -155,7 +155,10 @@ class _GrammarTensesScreenState extends State<GrammarTensesScreen>
           await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => GrammarLessonDetailScreen(lesson: lesson),
+              builder: (context) => GrammarLessonDetailScreen(
+                lesson: lesson,
+                categoryTitle: widget.category.title,
+              ),
             ),
           );
           // Reload progress when returning

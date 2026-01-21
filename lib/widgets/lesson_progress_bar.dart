@@ -26,7 +26,7 @@ class LessonProgressBar extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFFD4A574), // App theme color
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
                 Text(
@@ -46,8 +46,8 @@ class LessonProgressBar extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
             color: Colors.grey[200],
             border: Border.all(
-              color: Colors.grey[400]!,
-              width: 1.5,
+              color: Colors.grey[700]!,
+              width: 2.0,
             ),
           ),
           child: Stack(

@@ -2,14 +2,15 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/test_question.dart';
+import '../main.dart'; // For localCacheService and connectivityService
 
 /// Firebase Question Service with Smart Caching
 /// 
 /// Strategy:
-/// 1. Try cache first (7 days)
+/// 1. Try SharedPreferences cache first (7 days)
 /// 2. If no cache, fetch from Firebase
-/// 3. If Firebase fails, use expired cache
-/// 4. Requires internet on first launch
+/// 3. If Firebase fails or offline, use Hive cache
+/// 4. Cache to both SharedPreferences and Hive
 class FirebaseQuestionService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static const String _cachePrefix = 'questions_cache_';
@@ -24,34 +25,46 @@ class FirebaseQuestionService {
   }) async {
     final cacheKey = _getCacheKey(category, level);
     
-    // Try cache first
+    // Try SharedPreferences cache first
     final cached = await _getCachedQuestions(cacheKey);
     if (cached != null && cached.isNotEmpty) {
-      // print('📦 Using cached questions: ${cached.length}'); // Removed log
-      
-      // Background sync if cache is old
-      _backgroundSync(cacheKey, category, level);
+      // Background sync if cache is old and online
+      if (connectivityService.isOnline) {
+        _backgroundSync(cacheKey, category, level);
+      }
       
       return _filterQuestions(cached, category, level, limit);
     }
 
-    // No cache, fetch from Firebase
+    // Check connectivity before trying Firebase
+    if (connectivityService.isOffline) {
+      print('📴 Offline - trying Hive cache...');
+      final hiveCache = await localCacheService.getCachedQuestions(cacheKey);
+      if (hiveCache != null && hiveCache.isNotEmpty) {
+        print('📦 Using Hive cache: ${hiveCache.length} questions');
+        return _filterQuestions(hiveCache, category, level, limit);
+      }
+      throw Exception('No cached data available. Please connect to the internet.');
+    }
+
+    // Online - fetch from Firebase
     print('☁️ Fetching from Firebase...');
     try {
       final questions = await _fetchFromFirebase(category, level);
       
-      // Cache for next time
+      // Cache to both SharedPreferences and Hive
       await _cacheQuestions(cacheKey, questions);
+      await localCacheService.cacheQuestions(cacheKey, questions);
       
       return _filterQuestions(questions, category, level, limit);
     } catch (e) {
       print('❌ Firebase error: $e');
       
-      // Try expired cache as last resort
-      final expiredCache = await _getCachedQuestions(cacheKey);
-      if (expiredCache != null && expiredCache.isNotEmpty) {
-        print('⚠️ Using expired cache as fallback');
-        return _filterQuestions(expiredCache, category, level, limit);
+      // Try Hive cache as fallback
+      final hiveCache = await localCacheService.getCachedQuestions(cacheKey);
+      if (hiveCache != null && hiveCache.isNotEmpty) {
+        print('⚠️ Using Hive cache as fallback');
+        return _filterQuestions(hiveCache, category, level, limit);
       }
       
       // No cache available, throw error

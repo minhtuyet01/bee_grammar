@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../data/learning_history_service.dart';
 import '../../data/firebase_user_progress_service.dart';
+import '../../data/service_locator.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
@@ -13,6 +14,29 @@ class StatisticsScreen extends StatefulWidget {
 class _StatisticsScreenState extends State<StatisticsScreen> {
   final _service = LearningHistoryService();
   final _progressService = FirebaseUserProgressService();
+  List<Map<String, dynamic>> _categories = [];
+  bool _loadingCategories = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCategories();
+  }
+
+  Future<void> _loadCategories() async {
+    try {
+      final grammarService = ServiceLocator().firebaseGrammarService;
+      final categories = await grammarService.getAllCategories();
+      
+      setState(() {
+        _categories = categories;
+        _loadingCategories = false;
+      });
+    } catch (e) {
+      print('Error loading categories: $e');
+      setState(() => _loadingCategories = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +45,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Thống kê'),
-        backgroundColor: const Color(0xFFD4A574),
       ),
       body: StreamBuilder<Map<String, dynamic>>(
         stream: _service.streamStatistics(userId),
@@ -183,7 +206,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
         return Card(
           elevation: 4,
-          color: const Color(0xFFD4A574).withOpacity(0.1),
+          color: const Color(0xFFFFF0E0), // Lighter pastel orange background
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(
@@ -192,7 +215,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: isActive ? Colors.orange : Colors.grey[400],
+                    color: isActive ? const Color(0xFFFF9F66) : Colors.grey[400], // Darker pastel orange
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -210,7 +233,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         'Streak hiện tại',
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.grey[600],
+                          color: Colors.grey[700],
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -219,7 +242,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         style: const TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFFD4A574),
+                          color: Color(0xFFFF9F66), // Darker pastel orange
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -227,7 +250,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         isActive ? '🔥 Đang hoạt động' : '💤 Chưa học hôm nay',
                         style: TextStyle(
                           fontSize: 12,
-                          color: isActive ? Colors.green : Colors.orange,
+                          color: isActive ? Colors.green : const Color(0xFFFF9F66),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -336,22 +359,44 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   Widget _buildCategoryProgress(Map<String, dynamic> categoriesProgress) {
-    final categories = {
-      'cat_1': {'title': '12 Thì Cơ Bản', 'total': 12, 'color': Colors.blue},
-      'cat_2': {'title': 'Câu Điều Kiện', 'total': 4, 'color': Colors.green},
-      'cat_3': {'title': 'Câu Bị Động', 'total': 3, 'color': Colors.orange},
-      'cat_4': {'title': 'Mệnh Đề Quan Hệ', 'total': 4, 'color': Colors.purple},
-      'cat_5': {'title': 'Câu Gián Tiếp', 'total': 3, 'color': Colors.red},
-    };
+    if (_loadingCategories) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_categories.isEmpty) {
+      return const Card(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Text('Không có dữ liệu chủ đề'),
+        ),
+      );
+    }
+
+    // Define colors for categories
+    final categoryColors = [
+      Colors.blue,
+      Colors.green,
+      Colors.orange,
+      Colors.purple,
+      Colors.red,
+      Colors.teal,
+      Colors.pink,
+      Colors.indigo,
+    ];
 
     return Column(
-      children: categories.entries.map((entry) {
-        final catId = entry.key;
-        final catData = entry.value;
+      children: _categories.asMap().entries.map((entry) {
+        final index = entry.key;
+        final category = entry.value;
+        final catId = category['id'] as String;
+        final catTitle = category['title'] as String;
         final progress = categoriesProgress[catId] ?? {};
         final completed = progress['completed'] ?? 0;
-        final total = catData['total'] as int;
+        
+        // Get total lessons for this category from Firebase
+        final total = category['lessonCount'] ?? 0;
         final percentage = total > 0 ? (completed / total * 100).round() : 0;
+        final color = categoryColors[index % categoryColors.length];
 
         return Card(
           margin: const EdgeInsets.only(bottom: 12),
@@ -365,7 +410,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   children: [
                     Expanded(
                       child: Text(
-                        catData['title'] as String,
+                        catTitle,
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -386,7 +431,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 LinearProgressIndicator(
                   value: total > 0 ? completed / total : 0,
                   backgroundColor: Colors.grey[200],
-                  valueColor: AlwaysStoppedAnimation<Color>(catData['color'] as Color),
+                  valueColor: AlwaysStoppedAnimation<Color>(color),
                   minHeight: 8,
                   borderRadius: BorderRadius.circular(4),
                 ),
@@ -418,25 +463,36 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   Widget _buildWeakTopics(Map<String, dynamic> categoriesProgress) {
-    final categories = {
-      'cat_1': {'title': '12 Thì Cơ Bản', 'total': 12},
-      'cat_2': {'title': 'Câu Điều Kiện', 'total': 4},
-      'cat_3': {'title': 'Câu Bị Động', 'total': 3},
-      'cat_4': {'title': 'Mệnh Đề Quan Hệ', 'total': 4},
-      'cat_5': {'title': 'Câu Gián Tiếp', 'total': 3},
-    };
+    if (_loadingCategories) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
-    // Find topics with < 50% completion
-    final weakTopics = categories.entries.where((entry) {
-      final progress = categoriesProgress[entry.key] ?? {};
+    if (_categories.isEmpty) {
+      return const Card(
+        color: Colors.white,
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Text('Không có dữ liệu chủ đề'),
+        ),
+      );
+    }
+
+    // Find topics with < 50% completion from dynamic categories
+    final weakTopics = _categories.where((category) {
+      final catId = category['id'] as String;
+      final progress = categoriesProgress[catId] ?? {};
       final completed = progress['completed'] ?? 0;
-      final total = entry.value['total'] as int;
-      final percentage = total > 0 ? (completed / total * 100) : 0;
+      final total = category['lessonCount'] ?? 0;
+      
+      if (total == 0) return false;
+      
+      final percentage = (completed / total * 100);
       return percentage < 50 && completed > 0;
     }).toList();
 
     if (weakTopics.isEmpty) {
       return Card(
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
@@ -459,20 +515,21 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     }
 
     return Column(
-      children: weakTopics.map((entry) {
-        final catData = entry.value;
-        final progress = categoriesProgress[entry.key] ?? {};
+      children: weakTopics.map((category) {
+        final catId = category['id'] as String;
+        final catTitle = category['title'] as String;
+        final progress = categoriesProgress[catId] ?? {};
         final completed = progress['completed'] ?? 0;
-        final total = catData['total'] as int;
+        final total = category['lessonCount'] ?? 0;
         final percentage = total > 0 ? (completed / total * 100).round() : 0;
 
         return Card(
           margin: const EdgeInsets.only(bottom: 8),
-          color: Colors.orange.withOpacity(0.1),
+          color: Colors.white, // Light background like other cards
           child: ListTile(
             leading: const Icon(Icons.trending_down, color: Colors.orange),
             title: Text(
-              catData['title'] as String,
+              catTitle,
               style: const TextStyle(fontWeight: FontWeight.w600),
             ),
             subtitle: Text('$percentage% hoàn thành'),

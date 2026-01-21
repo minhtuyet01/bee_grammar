@@ -334,4 +334,45 @@ class FirebaseGrammarService {
       return false;
     }
   }
+
+  /// Get all categories (grammar units across all levels)
+  /// Fallback to hardcoded categories if Firebase fails
+  Future<List<Map<String, String>>> getAllCategories() async {
+    try {
+      final levels = ['A1', 'A2', 'B1', 'B2', 'C1'];
+      final Map<String, String> categoriesMap = {};
+
+      for (final level in levels) {
+        final units = await getGrammarUnits(level);
+        for (final unit in units) {
+          categoriesMap[unit.id] = unit.title;
+        }
+      }
+
+      // If we got categories from Firebase, return them
+      if (categoriesMap.isNotEmpty) {
+        return categoriesMap.entries
+            .map((e) => {'id': e.key, 'title': e.value})
+            .toList();
+      }
+
+      // Fallback to hardcoded categories if Firebase fails
+      print('⚠️ Using fallback categories');
+      return _getFallbackCategories();
+    } catch (e) {
+      print('Error getting all categories: $e');
+      return _getFallbackCategories();
+    }
+  }
+
+  /// Fallback categories when Firebase is unavailable
+  List<Map<String, String>> _getFallbackCategories() {
+    return [
+      {'id': 'cat_1', 'title': 'I. Các Thì Trong Tiếng Anh'},
+      {'id': 'cat_2', 'title': 'II. Cấu Trúc Câu Trong Tiếng Anh'},
+      {'id': 'cat_3', 'title': 'III. Các Từ Loại'},
+      {'id': 'cat_4', 'title': 'IV. Các Dạng Câu Hỏi'},
+      {'id': 'cat_5', 'title': 'V. Cấu Trúc Ngữ Pháp Tiếng Anh Cơ Bản'},
+    ];
+  }
 }

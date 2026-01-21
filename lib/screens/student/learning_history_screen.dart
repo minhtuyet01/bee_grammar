@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import '../../data/learning_history_service.dart';
+import '../../data/service_locator.dart';
 
 class LearningHistoryScreen extends StatefulWidget {
   const LearningHistoryScreen({super.key});
@@ -18,6 +19,37 @@ class _LearningHistoryScreenState extends State<LearningHistoryScreen> {
   String? _selectedActivityType;
   String? _selectedCategory;
   String? _selectedTimeRange;
+  
+  // Categories from Firebase
+  List<Map<String, String>> _categories = [];
+  bool _loadingCategories = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCategories();
+  }
+
+  Future<void> _loadCategories() async {
+    try {
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+      if (userId == null) {
+        setState(() => _loadingCategories = false);
+        return;
+      }
+
+      // Load categories from user's actual history (all collections)
+      final categories = await _service.getUserCategories(userId);
+      
+      setState(() {
+        _categories = categories;
+        _loadingCategories = false;
+      });
+    } catch (e) {
+      print('Error loading categories: $e');
+      setState(() => _loadingCategories = false);
+    }
+  }
 
   void _showFilterBottomSheet() {
     showModalBottomSheet(
@@ -30,6 +62,7 @@ class _LearningHistoryScreenState extends State<LearningHistoryScreen> {
         selectedActivityType: _selectedActivityType,
         selectedCategory: _selectedCategory,
         selectedTimeRange: _selectedTimeRange,
+        categories: _categories,
         onApply: (activityType, category, timeRange) {
           setState(() {
             _selectedActivityType = activityType;
@@ -57,7 +90,6 @@ class _LearningHistoryScreenState extends State<LearningHistoryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lịch sử học tập'),
-        backgroundColor: const Color(0xFFD4A574),
         actions: [
           // Filter button with badge
           Stack(
@@ -188,14 +220,26 @@ class _LearningHistoryScreenState extends State<LearningHistoryScreen> {
     var filtered = history;
 
     // Filter by activity type
-    if (_selectedActivityType != null) {
-      filtered = filtered.where((item) {
-        final totalQuestions = item['totalQuestions'] ?? 0;
-        final isExercise = totalQuestions > 0;
-        final activityType = isExercise ? 'practice' : 'study';
-        return activityType == _selectedActivityType;
-      }).toList();
-    }
+  if (_selectedActivityType != null) {
+    filtered = filtered.where((item) {
+      final itemType = item['type'] as String?;
+      final totalQuestions = item['totalQuestions'] ?? 0;
+      
+      // Determine activity type (same logic as _buildHistoryCard)
+      String activityType;
+      if (itemType == 'lesson') {
+        activityType = 'study';
+      } else if (itemType == 'practice') {
+        activityType = 'practice';
+      } else if (itemType == 'test' || itemType == 'mock_exam' || itemType == 'random_test') {
+        activityType = 'test';
+      } else {
+        activityType = totalQuestions > 0 ? 'practice' : 'study';
+      }
+      
+      return activityType == _selectedActivityType;
+    }).toList();
+  }
 
     // Filter by time range
     if (_selectedTimeRange != null) {
@@ -264,9 +308,20 @@ class _LearningHistoryScreenState extends State<LearningHistoryScreen> {
     final totalQuestions = item['totalQuestions'] ?? 0;
     final timeSpent = item['timeSpent'] ?? 0;
 
-    // Determine activity type based on data
-    final isExercise = totalQuestions > 0;
-    final activityType = isExercise ? 'practice' : 'study';
+    // Determine activity type based on item type
+    String activityType;
+    final itemType = item['type'] as String?;
+    
+    if (itemType == 'lesson') {
+      activityType = 'study';  // Lessons from home = HỌC
+    } else if (itemType == 'practice') {
+      activityType = 'practice';  // Practice sessions = LUYỆN TẬP
+    } else if (itemType == 'test' || itemType == 'mock_exam' || itemType == 'random_test') {
+      activityType = 'test';  // Tests = KIỂM TRA
+    } else {
+      // Fallback: determine by totalQuestions
+      activityType = totalQuestions > 0 ? 'practice' : 'study';
+    }
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -318,9 +373,9 @@ class _LearningHistoryScreenState extends State<LearningHistoryScreen> {
                   ),
                   const SizedBox(height: 6),
 
-                  // Lesson title
+                  // Title - handle different field names
                   Text(
-                    item['lessonTitle'] ?? '',
+                    item['lessonTitle'] ?? item['practiceTitle'] ?? item['testTitle'] ?? item['title'] ?? 'Không có tiêu đề',
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -328,31 +383,32 @@ class _LearningHistoryScreenState extends State<LearningHistoryScreen> {
                   ),
                   const SizedBox(height: 4),
 
-                  // Category
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.folder_outlined,
-                        size: 14,
-                        color: Colors.grey[600],
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        item['categoryTitle'] ?? '',
-                        style: TextStyle(
-                          fontSize: 13,
+                  // Category - handle different field names
+                  if ((item['categoryTitle'] ?? item['category'] ?? '').isNotEmpty)
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.folder_outlined,
+                          size: 14,
                           color: Colors.grey[600],
                         ),
-                      ),
-                    ],
-                  ),
+                        const SizedBox(width: 4),
+                        Text(
+                          item['categoryTitle'] ?? item['category'] ?? '',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
                   const SizedBox(height: 8),
 
                   // Result and time
                   Row(
                     children: [
                       // Result
-                      if (isExercise) ...[
+                      if (totalQuestions > 0) ...[
                         Icon(
                           Icons.check_circle_outline,
                           size: 16,
@@ -487,6 +543,7 @@ class _FilterBottomSheet extends StatefulWidget {
   final String? selectedActivityType;
   final String? selectedCategory;
   final String? selectedTimeRange;
+  final List<Map<String, String>> categories;
   final Function(String?, String?, String?) onApply;
   final VoidCallback onReset;
 
@@ -494,6 +551,7 @@ class _FilterBottomSheet extends StatefulWidget {
     this.selectedActivityType,
     this.selectedCategory,
     this.selectedTimeRange,
+    required this.categories,
     required this.onApply,
     required this.onReset,
   });
@@ -597,62 +655,36 @@ class _FilterBottomSheetState extends State<_FilterBottomSheet> {
             ),
           ),
           const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _buildFilterChip(
-                label: '12 Thì',
-                value: 'cat_1',
-                selected: _category == 'cat_1',
-                onSelected: (selected) {
-                  setState(() {
-                    _category = selected ? 'cat_1' : null;
-                  });
-                },
-              ),
-              _buildFilterChip(
-                label: 'Câu Điều Kiện',
-                value: 'cat_2',
-                selected: _category == 'cat_2',
-                onSelected: (selected) {
-                  setState(() {
-                    _category = selected ? 'cat_2' : null;
-                  });
-                },
-              ),
-              _buildFilterChip(
-                label: 'Câu Bị Động',
-                value: 'cat_3',
-                selected: _category == 'cat_3',
-                onSelected: (selected) {
-                  setState(() {
-                    _category = selected ? 'cat_3' : null;
-                  });
-                },
-              ),
-              _buildFilterChip(
-                label: 'Mệnh Đề QH',
-                value: 'cat_4',
-                selected: _category == 'cat_4',
-                onSelected: (selected) {
-                  setState(() {
-                    _category = selected ? 'cat_4' : null;
-                  });
-                },
-              ),
-              _buildFilterChip(
-                label: 'Câu Gián Tiếp',
-                value: 'cat_5',
-                selected: _category == 'cat_5',
-                onSelected: (selected) {
-                  setState(() {
-                    _category = selected ? 'cat_5' : null;
-                  });
-                },
-              ),
-            ],
-          ),
+          widget.categories.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    'Chưa có chủ đề nào',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey[600],
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                )
+              : Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: widget.categories.map((category) {
+                    final categoryId = category['id']!;
+                    final categoryTitle = category['title']!;
+                    return _buildFilterChip(
+                      label: categoryTitle,
+                      value: categoryId,
+                      selected: _category == categoryId,
+                      onSelected: (selected) {
+                        setState(() {
+                          _category = selected ? categoryId : null;
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
           const SizedBox(height: 24),
 
           // Time Range Filter
@@ -707,18 +739,30 @@ class _FilterBottomSheetState extends State<_FilterBottomSheet> {
               Expanded(
                 child: OutlinedButton(
                   onPressed: widget.onReset,
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    side: const BorderSide(color: Color(0xFFD4A574)),
+                    foregroundColor: const Color(0xFFD4A574),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
                   child: const Text('Đặt lại'),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                flex: 2,
                 child: ElevatedButton(
                   onPressed: () {
                     widget.onApply(_activityType, _category, _timeRange);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFD4A574),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   child: const Text('Áp dụng'),
                 ),

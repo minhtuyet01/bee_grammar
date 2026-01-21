@@ -164,6 +164,7 @@ class _PracticeSessionScreenState extends State<PracticeSessionScreen> {
       await _practiceService.savePracticeSession(
         userId: userId,
         practiceType: widget.practiceType,
+        practiceTitle: widget.title,
         topicId: widget.topicId,
         difficulty: widget.difficulty,
         totalQuestions: result['totalQuestions'],
@@ -217,7 +218,10 @@ class _PracticeSessionScreenState extends State<PracticeSessionScreen> {
               ),
               ElevatedButton(
                 onPressed: () => Navigator.pop(context, true),
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                ),
                 child: const Text('Thoát'),
               ),
             ],
@@ -228,8 +232,7 @@ class _PracticeSessionScreenState extends State<PracticeSessionScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
-          backgroundColor: const Color(0xFFD4A574),
-        ),
+          ),
         body: Column(
           children: [
             // Progress indicator
@@ -299,23 +302,24 @@ class _PracticeSessionScreenState extends State<PracticeSessionScreen> {
               ),
               child: Row(
                 children: [
-                  // Previous button
-                  if (_currentQuestionIndex > 0)
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: _previousQuestion,
-                        icon: const Icon(Icons.arrow_back),
-                        label: const Text('Trước'),
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
+                  // Previous button (always visible, disabled when at first question)
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: _currentQuestionIndex > 0 ? _previousQuestion : null,
+                      icon: const Icon(Icons.arrow_back),
+                      label: const Text('Trước'),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                     ),
-                  if (_currentQuestionIndex > 0) const SizedBox(width: 12),
+                  ),
+                  const SizedBox(width: 12),
 
                   // Next/Submit button
                   Expanded(
-                    flex: 2,
                     child: ElevatedButton.icon(
                       onPressed: _currentQuestionIndex < widget.questions.length - 1
                           ? _nextQuestion
@@ -331,7 +335,8 @@ class _PracticeSessionScreenState extends State<PracticeSessionScreen> {
                             : 'Nộp bài',
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFD4A574),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                     ),

@@ -28,7 +28,6 @@ class PracticeResultScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Kết quả'),
-        backgroundColor: const Color(0xFFD4A574),
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -122,7 +121,7 @@ class PracticeResultScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Điểm: $score%',
+                      'Điểm: ${(score / 10).toStringAsFixed(1)}/10',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.grey[700],
@@ -210,6 +209,9 @@ class PracticeResultScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       side: const BorderSide(color: Color(0xFFD4A574)),
                       foregroundColor: const Color(0xFFD4A574),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                   ),
                 ),
@@ -220,8 +222,9 @@ class PracticeResultScreen extends StatelessWidget {
                     icon: const Icon(Icons.refresh),
                     label: const Text('Quay lại'),
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor: const Color(0xFFD4A574),
                     ),
                   ),
                 ),

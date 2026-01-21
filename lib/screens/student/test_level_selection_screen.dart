@@ -57,7 +57,7 @@ class _TestLevelSelectionScreenState extends State<TestLevelSelectionScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chọn cấp độ'),
-        backgroundColor: Colors.blue,
+        foregroundColor: Colors.blue,
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())

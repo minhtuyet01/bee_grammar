@@ -6,6 +6,7 @@ class GrammarCategory {
   final String title;
   final String description;
   final IconData icon;
+  final String? iconPath; // Path to custom icon asset
   final Color color;
   final int order;
   final List<String> lessonIds; // IDs of lessons in this category
@@ -15,6 +16,7 @@ class GrammarCategory {
     required this.title,
     required this.description,
     required this.icon,
+    this.iconPath,
     required this.color,
     required this.order,
     required this.lessonIds,
@@ -26,6 +28,7 @@ class GrammarCategory {
       'title': title,
       'description': description,
       'icon': icon.codePoint,
+      'iconPath': iconPath,
       'color': color.value,
       'order': order,
       'lessonIds': lessonIds,
@@ -38,6 +41,7 @@ class GrammarCategory {
       title: json['title'] as String,
       description: json['description'] as String,
       icon: IconData(json['icon'] as int, fontFamily: 'MaterialIcons'),
+      iconPath: json['iconPath'] as String?,
       color: Color(json['color'] as int),
       order: json['order'] as int,
       lessonIds: List<String>.from(json['lessonIds'] as List),

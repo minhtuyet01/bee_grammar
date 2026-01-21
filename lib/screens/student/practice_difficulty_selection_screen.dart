@@ -40,7 +40,6 @@ class DifficultySelectionScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chọn độ khó'),
-        backgroundColor: const Color(0xFFD4A574),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),

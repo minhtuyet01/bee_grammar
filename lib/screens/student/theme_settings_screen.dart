@@ -75,7 +75,6 @@ class _ThemeSettingsScreenState extends State<ThemeSettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Giao diện'),
-        backgroundColor: const Color(0xFFD4A574),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),

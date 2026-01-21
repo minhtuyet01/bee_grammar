@@ -235,9 +235,9 @@ class _TestTakingScreenState extends State<TestTakingScreen> {
         await _testService.saveMockExamResult(
           userId: userId,
           mockExamId: widget.mockExamId!,
-          totalQuestions: result['totalQuestions'],
-          correctAnswers: result['correctAnswers'],
-          score: result['score'],
+          totalQuestions: result['total'] as int,
+          correctAnswers: result['correct'] as int,
+          score: result['percentage'] as int,
           timeSpent: timeSpent,
           answers: result['answerDetails'],
         );
@@ -245,9 +245,9 @@ class _TestTakingScreenState extends State<TestTakingScreen> {
         // Save random test result
         await _testService.saveRandomTestResult(
           userId: userId,
-          totalQuestions: result['totalQuestions'],
-          correctAnswers: result['correctAnswers'],
-          score: result['score'],
+          totalQuestions: result['total'] as int,
+          correctAnswers: result['correct'] as int,
+          score: result['percentage'] as int,
           timeSpent: timeSpent,
           answers: result['answerDetails'],
         );
@@ -257,9 +257,9 @@ class _TestTakingScreenState extends State<TestTakingScreen> {
           userId: userId,
           testType: 'unit',
           category: widget.title, // Category name
-          totalQuestions: result['totalQuestions'],
-          correctAnswers: result['correctAnswers'],
-          score: result['score'],
+          totalQuestions: result['total'] as int,
+          correctAnswers: result['correct'] as int,
+          score: result['percentage'] as int,
           timeSpent: timeSpent,
           answers: result['answerDetails'],
         );
@@ -269,9 +269,9 @@ class _TestTakingScreenState extends State<TestTakingScreen> {
           userId: userId,
           testType: 'level',
           level: widget.title, // Level name
-          totalQuestions: result['totalQuestions'],
-          correctAnswers: result['correctAnswers'],
-          score: result['score'],
+          totalQuestions: result['total'] as int,
+          correctAnswers: result['correct'] as int,
+          score: result['percentage'] as int,
           timeSpent: timeSpent,
           answers: result['answerDetails'],
         );
@@ -288,6 +288,9 @@ class _TestTakingScreenState extends State<TestTakingScreen> {
           mockExamId: widget.mockExamId,
           result: result,
           timeSpent: timeSpent,
+          questions: _questions,
+          userAnswers: _userAnswers,
+          userTextAnswers: _userTextAnswers,
         ),
         type: TransitionType.fadeSlide,
       );
@@ -320,7 +323,10 @@ class _TestTakingScreenState extends State<TestTakingScreen> {
               ),
               ElevatedButton(
                 onPressed: () => Navigator.pop(context, true),
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                ),
                 child: const Text('Thoát'),
               ),
             ],
@@ -331,7 +337,6 @@ class _TestTakingScreenState extends State<TestTakingScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
-          backgroundColor: const Color(0xFFD4A574),
           actions: [
             // Timer (only show if there's a time limit)
             if (_secondsRemaining > 0)
@@ -558,23 +563,24 @@ class _TestTakingScreenState extends State<TestTakingScreen> {
               ),
               child: Row(
                 children: [
-                  // Previous button
-                  if (_currentQuestionIndex > 0)
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: _previousQuestion,
-                        icon: const Icon(Icons.arrow_back),
-                        label: const Text('Trước'),
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
+                  // Previous button (always visible, disabled when at first question)
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: _currentQuestionIndex > 0 ? _previousQuestion : null,
+                      icon: const Icon(Icons.arrow_back),
+                      label: const Text('Trước'),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                     ),
-                  if (_currentQuestionIndex > 0) const SizedBox(width: 12),
+                  ),
+                  const SizedBox(width: 12),
 
                   // Next/Submit button
                   Expanded(
-                    flex: 2,
                     child: ElevatedButton.icon(
                       onPressed: _currentQuestionIndex < _questions.length - 1
                           ? _nextQuestion
@@ -590,7 +596,8 @@ class _TestTakingScreenState extends State<TestTakingScreen> {
                             : 'Nộp bài',
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFD4A574),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                     ),

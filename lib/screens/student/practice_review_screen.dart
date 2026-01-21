@@ -18,8 +18,7 @@ class PracticeReviewScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Xem lại đáp án'),
-        backgroundColor: const Color(0xFFD4A574),
-      ),
+        ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: questions.length,
